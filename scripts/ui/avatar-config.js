@@ -14,24 +14,15 @@ import { MODULE_ID, SETTINGS } from '../utils/constants.js';
 
 /** Built-in avatar packs */
 export const AVATAR_PACKS = [
-  {
-    id:      'otto',
-    label:   'Otto (Robot)',
-    system:  null,   // available for all systems
-    states:  {
-      good:   'assets/avatars/otto/good.svg',
-      risky:  'assets/avatars/otto/risky.svg',
-      broken: 'assets/avatars/otto/broken.svg',
-    },
-  },
+
   {
     id:      'goblin-pf2e',
-    label:   'Gremlin (PF2e Goblin)',
-    system:  'pf2e',
+    label:   'Boblin (PF2e Goblin)',
+    system:  null,
     states:  {
-      good:   'assets/avatars/goblin/good.png',
-      risky:  'assets/avatars/goblin/risky.png',
-      broken: 'assets/avatars/goblin/broken.png',
+      good:   'assets/avatars/boblin/good.svg',
+      risky:  'assets/avatars/boblin/risky.svg',
+      broken: 'assets/avatars/boblin/broken.svg',
     },
   },
   {
