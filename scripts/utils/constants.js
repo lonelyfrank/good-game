@@ -8,6 +8,7 @@ export const SETTINGS = {
   WARN_THRESHOLD:  'warnThreshold',
   AVATAR_ID:       'avatarId',
   MONITOR_CONSOLE: 'monitorConsole',
+  TOPBAR_ENABLED:  'topbarEnabled',
   TOPBAR_POSITION: 'topbarPosition',
   SCAN_ON_READY:   'scanOnReady',
   SCAN_ON_SCENE:   'scanOnScene',

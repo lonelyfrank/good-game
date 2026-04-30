@@ -53,8 +53,9 @@ Hooks.once('ready', async () => {
     }
   };
 
-  // 3. Render the persistent top-bar indicator
-  GGTopBar.inject(score);
+  // 3. Render the persistent top-bar indicator (if enabled)
+  const topbarEnabled = game.settings.get(MODULE_ID, SETTINGS.TOPBAR_ENABLED);
+  if (topbarEnabled) GGTopBar.inject(score);
 
   // 4. If score is below warning threshold, warn the GM
   const threshold = game.settings.get(MODULE_ID, SETTINGS.WARN_THRESHOLD);
@@ -123,14 +124,14 @@ Hooks.on('getSceneControlButtons', (controls) => {
           title:   'GG.Controls.OpenPanel',
           icon:    'fas fa-heartbeat',
           button:  true,
-          onChange: () => GGHealthPanel.open()
+          onClick: () => GGHealthPanel.open()
         },
         'save-snapshot': {
           name:    'save-snapshot',
           title:   'GG.Controls.SaveSnapshot',
           icon:    'fas fa-camera',
           button:  true,
-          onChange: () => GGSnapshots.save(game.goodGame.lastScore, game.goodGame.lastScan)
+          onClick: () => GGSnapshots.save(game.goodGame.lastScore, game.goodGame.lastScan)
         }
       }
     };
