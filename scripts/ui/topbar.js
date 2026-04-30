@@ -22,7 +22,7 @@ export class GGTopBar {
    */
   static _ensureDelegate() {
     if (this._delegated) return;
-    document.addEventListener('click', (e) => {
+    document.addEventListener('pointerup', (e) => {
       if (e.target.closest('#gg-topbar')) GGHealthPanel.open();
     });
     this._delegated = true;
