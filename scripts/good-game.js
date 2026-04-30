@@ -112,23 +112,19 @@ Hooks.on('renderSceneControls', (app, html) => {
   // Avoid duplicate injection
   if (root.querySelector('#gg-control-btn')) return;
 
-  // Clone style from an existing control button for perfect v13 compatibility
-  const existing = root.querySelector('li[data-control], .scene-control');
-  const btn = document.createElement('li');
-  btn.id = 'gg-control-btn';
-  btn.className = existing ? existing.className.replace('active','') : 'scene-control';
-  btn.dataset.control = MODULE_ID;
-  btn.setAttribute('title', game.i18n.localize('GG.Controls.OpenPanel'));
-  btn.setAttribute('aria-label', game.i18n.localize('GG.Controls.OpenPanel'));
-  btn.innerHTML = '<i class="fas fa-heartbeat"></i>';
+  // v13 structure: <menu> > <li> > <button class="control ui-control layer icon ...">
+  const menu = root.querySelector('menu[data-application-part="layers"]');
+  if (!menu) return;
+
+  const li  = document.createElement('li');
+  const btn = document.createElement('button');
+  btn.id        = 'gg-control-btn';
+  btn.type      = 'button';
+  btn.className = 'control ui-control layer icon fa-solid fa-heart-pulse';
+  btn.setAttribute('data-tooltip', game.i18n.localize('GG.Controls.OpenPanel'));
+  btn.setAttribute('aria-label',   game.i18n.localize('GG.Controls.OpenPanel'));
   btn.addEventListener('click', (e) => { e.stopPropagation(); GGHealthPanel.open(); });
 
-  // Insert after the first control (token layer)
-  const list = root.querySelector('ol.main-controls') ?? root.querySelector('ol') ?? root;
-  const first = list.querySelector('li');
-  if (first?.nextSibling) {
-    list.insertBefore(btn, first.nextSibling);
-  } else {
-    list.appendChild(btn);
-  }
+  li.appendChild(btn);
+  menu.appendChild(li);
 });
