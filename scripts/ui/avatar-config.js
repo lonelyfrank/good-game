@@ -20,9 +20,9 @@ export const AVATAR_PACKS = [
     label:   game?.i18n?.localize('GG.Avatar.Default') ?? 'Default Mascot',
     system:  null,
     states:  {
-      good:   'assets/avatars/default/good.svg',
-      risky:  'assets/avatars/default/risky.svg',
-      broken: 'assets/avatars/default/broken.svg',
+      good:   'assets/avatars/boblin/good.svg',
+      risky:  'assets/avatars/boblin/risky.svg',
+      broken: 'assets/avatars/boblin/broken.svg',
     },
   },
   {
