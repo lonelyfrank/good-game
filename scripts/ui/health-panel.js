@@ -19,7 +19,7 @@ const USE_V2 = typeof foundry?.applications?.api?.ApplicationV2 !== 'undefined';
 /*  ApplicationV2 version (Foundry v12+)                               */
 /* ------------------------------------------------------------------ */
 
-class GGHealthPanelV2 extends foundry.applications.api.ApplicationV2 {
+class GGHealthPanelV2 extends foundry.applications.api.HandlebarsApplicationMixin(foundry.applications.api.ApplicationV2) {
 
   static DEFAULT_OPTIONS = {
     id:       'gg-health-panel',
