@@ -143,30 +143,28 @@
 /* Avatar takes right half — same visual weight as gauge */
 .gg-avatar-wrap {
   flex-shrink: 0;
-  width: 120px;
+  width: 140px;
   display: flex;
   align-items: center;
   justify-content: center;
+  align-self: stretch;
 }
 
 .gg-avatar {
-  width: 110px;
-  height: 110px;
+  width: 130px;
+  height: 130px;
   object-fit: contain;
-  /* SVG currentColor → white so black strokes are visible on dark bg */
-  color: #ffffff;
-  filter: brightness(0) invert(1) drop-shadow(0 0 4px rgba(255,255,255,0.2));
-  transition: filter 0.3s, transform 0.3s;
+  /* Force white regardless of SVG fill color */
+  filter: brightness(0) invert(1);
+  transition: transform 0.3s, filter 0.3s;
 }
 
-.gg-avatar:hover {
-  transform: scale(1.04);
-}
+.gg-avatar:hover { transform: scale(1.04); }
 
-/* Tier-tinted glow on avatar */
-.gg-tier-good   .gg-avatar { filter: brightness(0) invert(1) drop-shadow(0 0 6px rgba(99,153,34,0.6)); }
-.gg-tier-risky  .gg-avatar { filter: brightness(0) invert(1) drop-shadow(0 0 6px rgba(239,159,39,0.6)); }
-.gg-tier-broken .gg-avatar { filter: brightness(0) invert(1) drop-shadow(0 0 6px rgba(226,75,74,0.6)); }
+/* Tier glow — applied on top of the invert */
+.gg-tier-good   .gg-avatar { filter: brightness(0) invert(1) drop-shadow(0 2px 8px rgba(99,153,34,0.7)); }
+.gg-tier-risky  .gg-avatar { filter: brightness(0) invert(1) drop-shadow(0 2px 8px rgba(239,159,39,0.7)); }
+.gg-tier-broken .gg-avatar { filter: brightness(0) invert(1) drop-shadow(0 2px 8px rgba(226,75,74,0.7)); }
 
 .gg-avatar-name { display: none; }
 
@@ -175,7 +173,7 @@
 
 .gg-gauge__svg {
   width: 100%;
-  max-width: 240px;
+  max-width: 260px;
   display: block;
   margin: 0 auto;
 }

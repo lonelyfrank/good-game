@@ -82,41 +82,44 @@ Hooks.on('canvasReady', () => {
 /* ------------------------------------------------------------------ */
 /*  Register the panel opener in the sidebar / controls                */
 /* ------------------------------------------------------------------ */
+/* Scene control button — v10/v11/v12 only (array-based API) */
 Hooks.on('getSceneControlButtons', (controls) => {
   if (!game.user.isGM) return;
+  if (!Array.isArray(controls)) return; // v13+ handled via renderSceneControls
 
-  if (Array.isArray(controls)) {
-    // v10–v12: array-based, push one group with one button
-    controls.push({
-      name:    MODULE_ID,
+  controls.push({
+    name:    MODULE_ID,
+    title:   game.i18n.localize('GG.Controls.OpenPanel'),
+    icon:    'fas fa-heartbeat',
+    layer:   'controls',
+    visible: true,
+    tools:   [{
+      name:    'open-panel',
       title:   game.i18n.localize('GG.Controls.OpenPanel'),
       icon:    'fas fa-heartbeat',
-      layer:   'controls',
-      visible: true,
-      tools:   [{
-        name:    'open-panel',
-        title:   game.i18n.localize('GG.Controls.OpenPanel'),
-        icon:    'fas fa-heartbeat',
-        button:  true,
-        onClick: () => GGHealthPanel.open()
-      }]
-    });
-  } else {
-    // v13+: object-based, single tool
-    controls[MODULE_ID] = {
-      name:    MODULE_ID,
-      title:   game.i18n.localize('GG.Controls.OpenPanel'),
-      icon:    'fas fa-heartbeat',
-      visible: true,
-      tools:   {
-        'open-panel': {
-          name:    'open-panel',
-          title:   game.i18n.localize('GG.Controls.OpenPanel'),
-          icon:    'fas fa-heartbeat',
-          button:  true,
-          onClick: () => GGHealthPanel.open()
-        }
-      }
-    };
-  }
+      button:  true,
+      onClick: () => GGHealthPanel.open()
+    }]
+  });
+});
+
+/* Scene control button — v13+ (DOM injection after render) */
+Hooks.on('renderSceneControls', (app, html) => {
+  if (!game.user.isGM) return;
+  const root = html instanceof HTMLElement ? html : html[0];
+  if (!root) return;
+
+  // Avoid duplicate injection
+  if (root.querySelector('#gg-control-btn')) return;
+
+  const btn = document.createElement('li');
+  btn.id = 'gg-control-btn';
+  btn.className = 'scene-control';
+  btn.setAttribute('title', game.i18n.localize('GG.Controls.OpenPanel'));
+  btn.innerHTML = '<i class="fas fa-heartbeat"></i>';
+  btn.addEventListener('click', () => GGHealthPanel.open());
+
+  // Insert at top of the controls list
+  const list = root.querySelector('ol.main-controls') ?? root.querySelector('ol') ?? root;
+  list.prepend(btn);
 });
