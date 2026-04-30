@@ -85,53 +85,36 @@ Hooks.on('canvasReady', () => {
 Hooks.on('getSceneControlButtons', (controls) => {
   if (!game.user.isGM) return;
 
-  // v13+: controls is a Map/object — add tools to an existing group
-  // v10–v12: controls is an array — push a new group
   if (Array.isArray(controls)) {
+    // v10–v12: array-based, push one group with one button
     controls.push({
       name:    MODULE_ID,
-      title:   'GG.Controls.OpenPanel',
+      title:   game.i18n.localize('GG.Controls.OpenPanel'),
       icon:    'fas fa-heartbeat',
       layer:   'controls',
       visible: true,
-      tools:   [
-        {
-          name:    'open-panel',
-          title:   'GG.Controls.OpenPanel',
-          icon:    'fas fa-heartbeat',
-          button:  true,
-          onClick: () => GGHealthPanel.open()
-        },
-        {
-          name:    'save-snapshot',
-          title:   'GG.Controls.SaveSnapshot',
-          icon:    'fas fa-camera',
-          button:  true,
-          onClick: () => GGSnapshots.save(game.goodGame.lastScore, game.goodGame.lastScan)
-        }
-      ]
+      tools:   [{
+        name:    'open-panel',
+        title:   game.i18n.localize('GG.Controls.OpenPanel'),
+        icon:    'fas fa-heartbeat',
+        button:  true,
+        onClick: () => GGHealthPanel.open()
+      }]
     });
   } else {
-    // v13+ object-based controls
+    // v13+: object-based, single tool
     controls[MODULE_ID] = {
       name:    MODULE_ID,
-      title:   'GG.Controls.OpenPanel',
+      title:   game.i18n.localize('GG.Controls.OpenPanel'),
       icon:    'fas fa-heartbeat',
       visible: true,
       tools:   {
         'open-panel': {
           name:    'open-panel',
-          title:   'GG.Controls.OpenPanel',
+          title:   game.i18n.localize('GG.Controls.OpenPanel'),
           icon:    'fas fa-heartbeat',
           button:  true,
           onClick: () => GGHealthPanel.open()
-        },
-        'save-snapshot': {
-          name:    'save-snapshot',
-          title:   'GG.Controls.SaveSnapshot',
-          icon:    'fas fa-camera',
-          button:  true,
-          onClick: () => GGSnapshots.save(game.goodGame.lastScore, game.goodGame.lastScan)
         }
       }
     };

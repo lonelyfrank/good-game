@@ -11,14 +11,8 @@
     </div>
   </div>
 
-  {{!-- Hero: Avatar + Gauge --}}
+  {{!-- Hero: Gauge LEFT, Avatar RIGHT --}}
   <div class="gg-panel__hero">
-
-    {{!-- Avatar --}}
-    <div class="gg-avatar-wrap">
-      <img class="gg-avatar" src="{{avatarSrc}}" alt="GG mascot" />
-      <div class="gg-avatar-name">{{avatarPacks.active.label}}</div>
-    </div>
 
     {{!-- Gauge + state info --}}
     <div class="gg-gauge-area">
@@ -40,7 +34,11 @@
 
       <div class="gg-state-info gg-tier-{{tier}}">
         <div class="gg-state-name">{{tierLabel}}</div>
-        <div class="gg-state-desc">{{localize (concat "GG.Tier." tier ".Desc")}}</div>
+        <div class="gg-state-desc">
+          {{#if (eq tier "good")}}{{localize "GG.Tier.GoodDesc"}}{{/if}}
+          {{#if (eq tier "risky")}}{{localize "GG.Tier.RiskyDesc"}}{{/if}}
+          {{#if (eq tier "broken")}}{{localize "GG.Tier.BrokenDesc"}}{{/if}}
+        </div>
       </div>
 
       <div class="gg-legend">
@@ -49,6 +47,12 @@
         <span class="gg-legend-item gg-tier-broken">0–49 {{localize "GG.Tier.broken"}}</span>
       </div>
     </div>
+
+    {{!-- Avatar --}}
+    <div class="gg-avatar-wrap">
+      <img class="gg-avatar" src="{{avatarSrc}}" alt="GG mascot" />
+    </div>
+
   </div>
 
   {{!-- Stats row --}}
