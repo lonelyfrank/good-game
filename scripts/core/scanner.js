@@ -87,7 +87,7 @@ export class GGScanner {
         type:     'incompatible',
         severity: SEVERITY.CRITICAL,
         penalty:  PENALTIES.INCOMPATIBLE_MODULE,
-        message:  `Declares max version ${compat.maximum ?? '?'}, running ${foundryVersion}`,
+        message:  `Verified for v${compat.verified ?? '?'}, running v${foundryVersion}`,
         moduleId: id,
       });
     }
@@ -104,13 +104,13 @@ export class GGScanner {
     }
 
     // 3. Outdated check (last update > 180 days)
-    const outdated = this._checkOutdated(data);
+    const outdated = this._checkOutdated(data, foundryVersion);
     if (outdated.isOutdated) {
       problems.push({
         type:     'outdated',
         severity: SEVERITY.WARNING,
         penalty:  PENALTIES.OUTDATED_MODULE,
-        message:  `Last update: ${outdated.daysAgo} days ago`,
+        message:  outdated.daysAgo ? `Last update: ${outdated.daysAgo} days ago` : `Verified for v${outdated.verMajor}, running v${foundryVersion.split('.')[0]}`,
         moduleId: id,
       });
     }
@@ -166,12 +166,17 @@ export class GGScanner {
    * Checks whether a module is compatible with the running Foundry version.
    */
   static _checkCompatibility(compat, foundryVersion) {
-    if (!compat.maximum) return { incompatible: false };
     try {
-      // Simple semver major comparison — good enough for Foundry's versioning
-      const runMajor = parseInt(foundryVersion.split('.')[0]);
-      const maxMajor = parseInt(String(compat.maximum).split('.')[0]);
-      return { incompatible: runMajor > maxMajor };
+      const runMajor = parseInt(foundryVersion.split(".")[0]);
+      if (compat.maximum) {
+        const maxMajor = parseInt(String(compat.maximum).split(".")[0]);
+        if (runMajor > maxMajor) return { incompatible: true, reason: "maximum" };
+      }
+      if (compat.verified) {
+        const verMajor = parseInt(String(compat.verified).split(".")[0]);
+        if (runMajor - verMajor >= 2) return { incompatible: true, reason: "verified", verMajor, runMajor };
+      }
+      return { incompatible: false };
     } catch {
       return { incompatible: false };
     }
@@ -181,16 +186,26 @@ export class GGScanner {
    * Rough heuristic: if manifest has a lastUpdate/date field older than 180 days.
    * Many modules don't expose this, so we degrade gracefully.
    */
-  static _checkOutdated(data) {
+  static _checkOutdated(data, foundryVersion) {
+    // Primary: lastUpdate/date field in manifest
     const raw = data.lastUpdate ?? data.date ?? null;
-    if (!raw) return { isOutdated: false };
-    try {
-      const ms     = Date.parse(raw);
-      const daysAgo = Math.floor((Date.now() - ms) / 86_400_000);
-      return { isOutdated: daysAgo > 180, daysAgo };
-    } catch {
-      return { isOutdated: false };
+    if (raw) {
+      try {
+        const ms = Date.parse(raw);
+        const daysAgo = Math.floor((Date.now() - ms) / 86_400_000);
+        if (daysAgo > 180) return { isOutdated: true, daysAgo };
+      } catch { /* ignore */ }
     }
+    // Fallback: verified version is 1 major behind running version
+    try {
+      const compat = data.compatibility ?? {};
+      if (compat.verified && foundryVersion) {
+        const runMajor = parseInt(foundryVersion.split(".")[0]);
+        const verMajor = parseInt(String(compat.verified).split(".")[0]);
+        if (runMajor - verMajor === 1) return { isOutdated: true, daysAgo: null, verMajor };
+      }
+    } catch { /* ignore */ }
+    return { isOutdated: false };
   }
 
   /**
