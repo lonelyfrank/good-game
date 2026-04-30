@@ -1,0 +1,493 @@
+/* ==========================================================================
+   Good Game (GG) — Module Stylesheet
+   Compatible: Foundry v10–v14+
+   ========================================================================== */
+
+/* ── CSS Custom Properties ─────────────────────────────────────────────── */
+:root {
+  --gg-good:      #639922;
+  --gg-good-bg:   #EAF3DE;
+  --gg-good-text: #3B6D11;
+
+  --gg-risky:      #EF9F27;
+  --gg-risky-bg:   #FAEEDA;
+  --gg-risky-text: #854F0B;
+
+  --gg-broken:      #E24B4A;
+  --gg-broken-bg:   #FCEBEB;
+  --gg-broken-text: #A32D2D;
+
+  --gg-info-bg:   #E6F1FB;
+  --gg-info-text: #185FA5;
+
+  --gg-radius:    6px;
+  --gg-radius-lg: 10px;
+}
+
+/* ── Top Bar Indicator ─────────────────────────────────────────────────── */
+#gg-topbar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 10px;
+  border-radius: var(--gg-radius-lg);
+  background: rgba(0,0,0,0.35);
+  backdrop-filter: blur(4px);
+  cursor: pointer;
+  transition: background 0.2s;
+  position: relative;
+  z-index: 100;
+  min-width: 160px;
+}
+
+#gg-topbar:hover { background: rgba(0,0,0,0.5); }
+
+.gg-topbar__avatar {
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
+  image-rendering: pixelated;
+}
+
+.gg-topbar__bar-wrap {
+  flex: 1;
+  height: 4px;
+  background: rgba(255,255,255,0.2);
+  border-radius: 99px;
+  overflow: hidden;
+  min-width: 60px;
+}
+
+.gg-topbar__bar-fill {
+  height: 100%;
+  border-radius: 99px;
+  transition: width 0.5s ease, background 0.4s;
+}
+
+.gg-topbar.gg-tier-good   .gg-topbar__bar-fill { background: var(--gg-good); }
+.gg-topbar.gg-tier-risky  .gg-topbar__bar-fill { background: var(--gg-risky); }
+.gg-topbar.gg-tier-broken .gg-topbar__bar-fill { background: var(--gg-broken); }
+
+.gg-topbar__score {
+  font-size: 12px;
+  font-weight: 600;
+  color: #fff;
+  min-width: 22px;
+  text-align: right;
+}
+
+.gg-topbar__label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  padding: 2px 7px;
+  border-radius: 99px;
+  white-space: nowrap;
+}
+
+.gg-topbar.gg-tier-good   .gg-topbar__label { background: var(--gg-good-bg);   color: var(--gg-good-text); }
+.gg-topbar.gg-tier-risky  .gg-topbar__label { background: var(--gg-risky-bg);  color: var(--gg-risky-text); }
+.gg-topbar.gg-tier-broken .gg-topbar__label { background: var(--gg-broken-bg); color: var(--gg-broken-text); }
+
+/* ── Panel Shell ───────────────────────────────────────────────────────── */
+.good-game .window-content {
+  padding: 0;
+  overflow: hidden;
+}
+
+.gg-panel {
+  display: flex;
+  flex-direction: column;
+  font-family: var(--font-primary, "Signika", sans-serif);
+}
+
+.gg-panel__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
+  border-bottom: 1px solid rgba(0,0,0,0.15);
+  background: rgba(0,0,0,0.04);
+}
+
+.gg-panel__title {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  opacity: 0.7;
+}
+
+.gg-panel__header-meta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* ── Hero: Avatar + Gauge ──────────────────────────────────────────────── */
+.gg-panel__hero {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 18px 20px 12px;
+}
+
+.gg-avatar-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+  width: 100px;
+}
+
+.gg-avatar {
+  width: 88px;
+  height: 100px;
+  object-fit: contain;
+  image-rendering: pixelated;
+  transition: filter 0.3s;
+}
+
+.gg-avatar-name {
+  font-size: 9px;
+  opacity: 0.45;
+  letter-spacing: 0.05em;
+  text-align: center;
+}
+
+.gg-gauge-area { flex: 1; }
+
+/* Gauge SVG — uses CSS custom property --gg-score for needle + fill */
+.gg-gauge { position: relative; }
+
+.gg-gauge__svg {
+  width: 100%;
+  max-width: 240px;
+  display: block;
+  margin: 0 auto;
+}
+
+.gg-gauge__track { stroke: rgba(0,0,0,0.1); }
+
+.gg-tier-good   .gg-gauge__fill   { stroke: var(--gg-good); }
+.gg-tier-risky  .gg-gauge__fill   { stroke: var(--gg-risky); }
+.gg-tier-broken .gg-gauge__fill   { stroke: var(--gg-broken); }
+
+.gg-gauge__fill {
+  stroke-dasharray: 258;
+  /* stroke-dashoffset animated via JS */
+  transition: stroke-dashoffset 0.6s ease, stroke 0.4s;
+}
+
+.gg-gauge__needle {
+  stroke: currentColor;
+  transform-origin: 100px 100px;
+  transition: transform 0.6s ease;
+}
+
+.gg-gauge__pivot { fill: currentColor; }
+
+.gg-gauge__label {
+  text-align: center;
+  margin-top: -4px;
+}
+
+.gg-gauge__score {
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.gg-tier-good   .gg-gauge__score { color: var(--gg-good-text); }
+.gg-tier-risky  .gg-gauge__score { color: var(--gg-risky-text); }
+.gg-tier-broken .gg-gauge__score { color: var(--gg-broken-text); }
+
+.gg-gauge__unit { font-size: 11px; opacity: 0.4; }
+
+.gg-state-name {
+  font-size: 18px;
+  font-weight: 700;
+  margin-top: 6px;
+}
+
+.gg-tier-good   .gg-state-name { color: var(--gg-good-text); }
+.gg-tier-risky  .gg-state-name { color: var(--gg-risky-text); }
+.gg-tier-broken .gg-state-name { color: var(--gg-broken-text); }
+
+.gg-state-desc {
+  font-size: 12px;
+  opacity: 0.65;
+  line-height: 1.5;
+  margin-top: 3px;
+}
+
+.gg-legend {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+  flex-wrap: wrap;
+}
+
+.gg-legend-item {
+  font-size: 10px;
+  font-weight: 600;
+  padding: 2px 7px;
+  border-radius: 99px;
+}
+
+.gg-legend-item.gg-tier-good   { background: var(--gg-good-bg);   color: var(--gg-good-text); }
+.gg-legend-item.gg-tier-risky  { background: var(--gg-risky-bg);  color: var(--gg-risky-text); }
+.gg-legend-item.gg-tier-broken { background: var(--gg-broken-bg); color: var(--gg-broken-text); }
+
+/* ── Stats Row ─────────────────────────────────────────────────────────── */
+.gg-stats-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  padding: 12px 16px;
+  border-top: 1px solid rgba(0,0,0,0.08);
+}
+
+.gg-stat {
+  background: rgba(0,0,0,0.04);
+  border-radius: var(--gg-radius);
+  padding: 8px 10px;
+  text-align: center;
+}
+
+.gg-stat__num { font-size: 20px; font-weight: 700; line-height: 1; }
+.gg-stat__label { font-size: 9px; opacity: 0.55; letter-spacing: 0.04em; margin-top: 3px; }
+.gg-stat--critical .gg-stat__num { color: var(--gg-broken-text); }
+.gg-stat--warning  .gg-stat__num { color: var(--gg-risky-text); }
+
+/* ── Tabs ──────────────────────────────────────────────────────────────── */
+.gg-tabs {
+  display: flex;
+  border-top: 1px solid rgba(0,0,0,0.08);
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+  padding: 0 12px;
+  gap: 0;
+  background: rgba(0,0,0,0.02);
+}
+
+.gg-tab {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  padding: 8px 12px;
+  cursor: pointer;
+  border: none;
+  background: none;
+  border-bottom: 2px solid transparent;
+  opacity: 0.5;
+  transition: opacity 0.15s, border-color 0.15s;
+  color: inherit;
+}
+
+.gg-tab:hover { opacity: 0.8; }
+.gg-tab.active { opacity: 1; border-bottom-color: currentColor; }
+
+.gg-tab-content { display: none; padding: 12px 16px; }
+.gg-tab-content.active { display: block; }
+
+/* ── Problems ──────────────────────────────────────────────────────────── */
+.gg-filter-row { display: flex; gap: 5px; margin-bottom: 10px; flex-wrap: wrap; }
+
+.gg-filter-chip {
+  font-size: 10px;
+  font-weight: 600;
+  padding: 3px 9px;
+  border-radius: 99px;
+  border: 1px solid rgba(0,0,0,0.15);
+  background: none;
+  cursor: pointer;
+  opacity: 0.6;
+  transition: opacity 0.15s, background 0.15s;
+  color: inherit;
+}
+
+.gg-filter-chip:hover { opacity: 0.9; }
+.gg-filter-chip.active { opacity: 1; background: rgba(0,0,0,0.08); }
+
+.gg-problem-list { display: flex; flex-direction: column; gap: 6px; max-height: 260px; overflow-y: auto; }
+
+.gg-problem-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 8px 10px;
+  border-radius: var(--gg-radius);
+  background: rgba(0,0,0,0.03);
+  border: 1px solid rgba(0,0,0,0.07);
+}
+
+.gg-problem-icon {
+  width: 16px; height: 16px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 9px;
+  font-weight: 700;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.gg-icon-critical { background: var(--gg-broken-bg); color: var(--gg-broken-text); }
+.gg-icon-warning  { background: var(--gg-risky-bg);  color: var(--gg-risky-text); }
+.gg-icon-info     { background: var(--gg-info-bg);   color: var(--gg-info-text); }
+
+.gg-problem-body { flex: 1; }
+.gg-problem-name { font-size: 12px; font-weight: 600; margin-bottom: 2px; }
+.gg-problem-detail { font-size: 11px; opacity: 0.65; line-height: 1.4; }
+.gg-problem-penalty { font-size: 10px; opacity: 0.4; white-space: nowrap; }
+
+/* ── Modules Grid ──────────────────────────────────────────────────────── */
+.gg-module-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 6px;
+  max-height: 280px;
+  overflow-y: auto;
+}
+
+.gg-mod-card {
+  padding: 8px 10px;
+  border-radius: var(--gg-radius);
+  border: 1px solid rgba(0,0,0,0.1);
+  background: rgba(0,0,0,0.03);
+}
+
+.gg-mod-name { font-size: 11px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.gg-mod-ver  { font-size: 9px; opacity: 0.4; margin-bottom: 3px; }
+.gg-mod-status { font-size: 10px; display: flex; align-items: center; gap: 4px; opacity: 0.65; }
+
+.gg-mod-dot {
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.gg-mod-ok       .gg-mod-dot { background: var(--gg-good); }
+.gg-mod-critical .gg-mod-dot { background: var(--gg-broken); }
+.gg-mod-warning  .gg-mod-dot { background: var(--gg-risky); }
+
+/* ── Errors ────────────────────────────────────────────────────────────── */
+.gg-error-row {
+  padding: 8px 10px;
+  border-radius: var(--gg-radius);
+  background: rgba(0,0,0,0.03);
+  border: 1px solid rgba(0,0,0,0.07);
+  margin-bottom: 6px;
+}
+
+.gg-error-meta { display: flex; align-items: center; gap: 6px; margin-bottom: 3px; }
+.gg-error-module { font-size: 11px; font-weight: 600; }
+.gg-error-count { font-size: 10px; opacity: 0.45; margin-left: auto; }
+.gg-error-msg { font-size: 11px; opacity: 0.65; font-family: monospace; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* ── Snapshots ─────────────────────────────────────────────────────────── */
+.gg-snapshot-actions { margin-bottom: 10px; }
+
+.gg-snapshot-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 10px;
+  border-radius: var(--gg-radius);
+  background: rgba(0,0,0,0.03);
+  border: 1px solid rgba(0,0,0,0.07);
+  margin-bottom: 5px;
+}
+
+.gg-snapshot-label { font-size: 12px; font-weight: 600; }
+.gg-snapshot-meta  { font-size: 10px; opacity: 0.5; margin-top: 1px; }
+.gg-snapshot-score { font-size: 22px; font-weight: 700; }
+
+.gg-snapshot-score.gg-tier-good   { color: var(--gg-good-text); }
+.gg-snapshot-score.gg-tier-risky  { color: var(--gg-risky-text); }
+.gg-snapshot-score.gg-tier-broken { color: var(--gg-broken-text); }
+
+/* ── Avatar Picker ─────────────────────────────────────────────────────── */
+.gg-avatar-picker {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: 10px;
+}
+
+.gg-avatar-option {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  padding: 10px 6px;
+  border-radius: var(--gg-radius-lg);
+  border: 2px solid transparent;
+  background: rgba(0,0,0,0.04);
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.gg-avatar-option:hover { background: rgba(0,0,0,0.08); }
+.gg-avatar-option.active { border-color: var(--gg-good); background: var(--gg-good-bg); }
+
+.gg-avatar-option__img {
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
+  image-rendering: pixelated;
+}
+
+.gg-avatar-option__label { font-size: 10px; font-weight: 600; text-align: center; }
+.gg-avatar-option__system { font-size: 9px; opacity: 0.45; }
+
+/* ── Shared Utilities ──────────────────────────────────────────────────── */
+.gg-badge {
+  font-size: 10px;
+  font-weight: 600;
+  padding: 2px 7px;
+  border-radius: 99px;
+  background: rgba(0,0,0,0.08);
+  opacity: 0.8;
+}
+
+.gg-badge--critical { background: var(--gg-broken-bg); color: var(--gg-broken-text); }
+.gg-badge--warning  { background: var(--gg-risky-bg);  color: var(--gg-risky-text); }
+.gg-badge--info     { background: var(--gg-info-bg);   color: var(--gg-info-text); }
+.gg-badge--high     { background: var(--gg-broken-bg); color: var(--gg-broken-text); }
+.gg-badge--medium   { background: var(--gg-risky-bg);  color: var(--gg-risky-text); }
+.gg-badge--low      { background: var(--gg-info-bg);   color: var(--gg-info-text); }
+
+.gg-btn-primary {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 5px 12px;
+  border-radius: var(--gg-radius);
+  border: none;
+  background: var(--gg-good-bg);
+  color: var(--gg-good-text);
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+
+.gg-btn-primary:hover { opacity: 0.8; }
+.gg-btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
+
+.gg-empty {
+  text-align: center;
+  padding: 24px;
+  opacity: 0.35;
+  font-size: 13px;
+  font-style: italic;
+}
+
+.gg-panel__footer {
+  padding: 8px 16px;
+  border-top: 1px solid rgba(0,0,0,0.08);
+  font-size: 10px;
+  opacity: 0.4;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(0,0,0,0.02);
+}

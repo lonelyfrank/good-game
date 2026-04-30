@@ -1,0 +1,57 @@
+{
+  "id": "good-game",
+  "title": "Good Game (GG) — Game Health Meter",
+  "description": "Analyzes, monitors and evaluates the technical stability of your Foundry session — before and during play. Featuring the Game Health Meter, OTTO the mascot, real-time error monitoring, module conflict detection and session snapshots.",
+  "version": "0.1.0",
+  "library": false,
+
+  "authors": [
+    {
+      "name": "lonelyfrank",
+      "url": "https://github.com/lonelyfrank",
+      "discord": ""
+    }
+  ],
+
+  "compatibility": {
+    "minimum": "10",
+    "verified": "14",
+    "maximum": "14"
+  },
+
+  "esmodules": [
+    "scripts/good-game.js"
+  ],
+
+  "styles": [
+    "styles/good-game.css"
+  ],
+
+  "languages": [
+    {
+      "lang": "en",
+      "name": "English",
+      "path": "lang/en.json"
+    },
+    {
+      "lang": "it",
+      "name": "Italiano",
+      "path": "lang/it.json"
+    }
+  ],
+
+  "socket": false,
+
+  "manifest": "https://raw.githubusercontent.com/lonelyfrank/good-game/main/module.json",
+  "download": "https://github.com/lonelyfrank/good-game/releases/latest/download/module.zip",
+  "changelog": "https://github.com/lonelyfrank/good-game/blob/main/CHANGELOG.md",
+  "bugs": "https://github.com/lonelyfrank/good-game/issues",
+  "url": "https://github.com/lonelyfrank/good-game",
+
+  "media": [
+    {
+      "type": "screenshot",
+      "url": "https://raw.githubusercontent.com/lonelyfrank/good-game/main/assets/screenshot.png"
+    }
+  ]
+}

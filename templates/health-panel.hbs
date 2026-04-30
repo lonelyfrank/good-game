@@ -1,0 +1,186 @@
+{{!-- Good Game — Health Panel Template --}}
+<div class="gg-panel">
+
+  {{!-- Header --}}
+  <div class="gg-panel__header">
+    <span class="gg-panel__title">{{localize "GG.Panel.Title"}}</span>
+    <div class="gg-panel__header-meta">
+      <span class="gg-badge">Foundry {{foundryVer}}</span>
+      <span class="gg-badge">{{systemId}} {{systemVer}}</span>
+      <button id="gg-scan-btn" class="gg-btn-primary">{{localize "GG.Panel.Scan"}}</button>
+    </div>
+  </div>
+
+  {{!-- Hero: Avatar + Gauge --}}
+  <div class="gg-panel__hero">
+
+    {{!-- Avatar --}}
+    <div class="gg-avatar-wrap">
+      <img class="gg-avatar" src="{{avatarSrc}}" alt="GG mascot" />
+      <div class="gg-avatar-name">{{avatarPacks.active.label}}</div>
+    </div>
+
+    {{!-- Gauge + state info --}}
+    <div class="gg-gauge-area">
+      <div class="gg-gauge-arc-wrap">
+        {{!-- SVG arc is rendered via CSS custom property --}}
+        <div class="gg-gauge gg-tier-{{tier}}" style="--gg-score: {{score}}">
+          <svg viewBox="0 0 200 110" class="gg-gauge__svg" aria-hidden="true">
+            <path class="gg-gauge__track"  d="M 18 100 A 82 82 0 0 1 182 100" fill="none" stroke-width="10" stroke-linecap="round"/>
+            <path class="gg-gauge__fill"   d="M 18 100 A 82 82 0 0 1 182 100" fill="none" stroke-width="10" stroke-linecap="round"/>
+            <line class="gg-gauge__needle" x1="100" y1="100" x2="100" y2="24" stroke-width="3" stroke-linecap="round"/>
+            <circle class="gg-gauge__pivot" cx="100" cy="100" r="5"/>
+          </svg>
+          <div class="gg-gauge__label">
+            <span class="gg-gauge__score">{{score}}</span>
+            <span class="gg-gauge__unit">/ 100</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="gg-state-info gg-tier-{{tier}}">
+        <div class="gg-state-name">{{tierLabel}}</div>
+        <div class="gg-state-desc">{{localize (concat "GG.Tier." tier ".Desc")}}</div>
+      </div>
+
+      <div class="gg-legend">
+        <span class="gg-legend-item gg-tier-good">80–100 {{localize "GG.Tier.good"}}</span>
+        <span class="gg-legend-item gg-tier-risky">50–79 {{localize "GG.Tier.risky"}}</span>
+        <span class="gg-legend-item gg-tier-broken">0–49 {{localize "GG.Tier.broken"}}</span>
+      </div>
+    </div>
+  </div>
+
+  {{!-- Stats row --}}
+  <div class="gg-stats-row">
+    <div class="gg-stat">
+      <div class="gg-stat__num">{{stats.active}}</div>
+      <div class="gg-stat__label">{{localize "GG.Stats.Active"}}</div>
+    </div>
+    <div class="gg-stat gg-stat--critical">
+      <div class="gg-stat__num">{{stats.critical}}</div>
+      <div class="gg-stat__label">{{localize "GG.Stats.Critical"}}</div>
+    </div>
+    <div class="gg-stat gg-stat--warning">
+      <div class="gg-stat__num">{{stats.warning}}</div>
+      <div class="gg-stat__label">{{localize "GG.Stats.Warning"}}</div>
+    </div>
+    <div class="gg-stat">
+      <div class="gg-stat__num">{{stats.errors}}</div>
+      <div class="gg-stat__label">{{localize "GG.Stats.Errors"}}</div>
+    </div>
+  </div>
+
+  {{!-- Tabs --}}
+  <div class="gg-tabs">
+    <button class="gg-tab active" data-tab="problems">{{localize "GG.Tabs.Problems"}}</button>
+    <button class="gg-tab" data-tab="modules">{{localize "GG.Tabs.Modules"}}</button>
+    <button class="gg-tab" data-tab="errors">{{localize "GG.Tabs.Errors"}}</button>
+    <button class="gg-tab" data-tab="snapshots">{{localize "GG.Tabs.Snapshots"}}</button>
+    <button class="gg-tab" data-tab="avatar">{{localize "GG.Tabs.Avatar"}}</button>
+  </div>
+
+  {{!-- Tab: Problems --}}
+  <div class="gg-tab-content active" id="gg-tab-problems">
+    <div class="gg-filter-row">
+      <button class="gg-filter-chip active" data-filter="all">{{localize "GG.Filter.All"}}</button>
+      <button class="gg-filter-chip" data-filter="critical">{{localize "GG.Filter.Critical"}}</button>
+      <button class="gg-filter-chip" data-filter="warning">{{localize "GG.Filter.Warning"}}</button>
+      <button class="gg-filter-chip" data-filter="info">{{localize "GG.Filter.Info"}}</button>
+    </div>
+    <div class="gg-problem-list">
+      {{#if problems.length}}
+        {{#each problems}}
+        <div class="gg-problem-row gg-sev-{{severity}}" data-severity="{{severity}}">
+          <div class="gg-problem-icon gg-icon-{{severity}}">
+            {{#if (eq severity "critical")}}!{{/if}}
+            {{#if (eq severity "warning")}}~{{/if}}
+            {{#if (eq severity "info")}}i{{/if}}
+          </div>
+          <div class="gg-problem-body">
+            <div class="gg-problem-name">{{source}}</div>
+            <div class="gg-problem-detail">{{message}}</div>
+            <span class="gg-badge gg-badge--{{severity}}">{{localize (concat "GG.Severity." severity)}}</span>
+          </div>
+          <div class="gg-problem-penalty">−{{penalty}} pt</div>
+        </div>
+        {{/each}}
+      {{else}}
+        <div class="gg-empty">{{localize "GG.Problems.Empty"}}</div>
+      {{/if}}
+    </div>
+  </div>
+
+  {{!-- Tab: Modules --}}
+  <div class="gg-tab-content" id="gg-tab-modules">
+    <div class="gg-module-grid">
+      {{#each modules}}
+      <div class="gg-mod-card gg-mod-{{status}}">
+        <div class="gg-mod-name" title="{{id}}">{{title}}</div>
+        <div class="gg-mod-ver">{{version}}</div>
+        <div class="gg-mod-status">
+          <span class="gg-mod-dot"></span>
+          {{localize (concat "GG.ModStatus." status)}}
+        </div>
+      </div>
+      {{/each}}
+    </div>
+  </div>
+
+  {{!-- Tab: Runtime Errors --}}
+  <div class="gg-tab-content" id="gg-tab-errors">
+    {{#if errors.length}}
+      {{#each errors}}
+      <div class="gg-error-row">
+        <div class="gg-error-meta">
+          <span class="gg-badge gg-badge--{{confidence}}">{{confidence}}</span>
+          <span class="gg-error-module">{{attributedModule}}</span>
+          <span class="gg-error-count">×{{count}}</span>
+        </div>
+        <div class="gg-error-msg">{{message}}</div>
+      </div>
+      {{/each}}
+    {{else}}
+      <div class="gg-empty">{{localize "GG.Errors.Empty"}}</div>
+    {{/if}}
+  </div>
+
+  {{!-- Tab: Snapshots --}}
+  <div class="gg-tab-content" id="gg-tab-snapshots">
+    <div class="gg-snapshot-actions">
+      <button id="gg-snapshot-btn" class="gg-btn-primary">{{localize "GG.Snapshots.Save"}}</button>
+    </div>
+    {{#if snapshots.length}}
+      {{#each snapshots}}
+      <div class="gg-snapshot-row">
+        <div class="gg-snapshot-info">
+          <div class="gg-snapshot-label">{{label}}</div>
+          <div class="gg-snapshot-meta">{{score}}/100 · {{tier}} · {{modules.foundry}}</div>
+        </div>
+        <div class="gg-snapshot-score gg-tier-{{tier}}">{{score}}</div>
+      </div>
+      {{/each}}
+    {{else}}
+      <div class="gg-empty">{{localize "GG.Snapshots.Empty"}}</div>
+    {{/if}}
+  </div>
+
+  {{!-- Tab: Avatar Picker --}}
+  <div class="gg-tab-content" id="gg-tab-avatar">
+    <div class="gg-avatar-picker">
+      {{#each avatarPacks.available}}
+      <div class="gg-avatar-option {{#if isActive}}active{{/if}}" data-avatar-id="{{id}}">
+        <img src="{{previewSrc}}" alt="{{label}}" class="gg-avatar-option__img" />
+        <div class="gg-avatar-option__label">{{label}}</div>
+        {{#if system}}<div class="gg-avatar-option__system">{{system}}</div>{{/if}}
+      </div>
+      {{/each}}
+    </div>
+  </div>
+
+  {{!-- Footer --}}
+  <div class="gg-panel__footer">
+    <span>{{localize "GG.Panel.LastScan"}}: {{scanTime}}</span>
+  </div>
+
+</div>
