@@ -22,26 +22,17 @@ A 0–100 score computed from penalties for:
 | 50–79 | **Risky Game** | Some issues — proceed with caution |
 | 0–49 | **Broken Game** | Critical problems — fix before playing |
 
-### 🤖 OTTO the Mascot
-A visual companion that reacts to the session state:
-- **Good**: smiling, green eyes, chest panel glowing
-- **Risky**: neutral expression, sweat drop
-- **Broken**: red eyes, inverted mouth, sparks, cracks
+### 🎭 Session Mascot
+A visual companion that reacts to the session state in three moods — healthy, worried, and broken. The GM can choose a mascot that fits their campaign from the **Mascot** tab inside the panel.
 
-**Customizable avatars**: GMs can choose a mascot that fits their campaign:
-- Otto (Robot) — default, system-agnostic
-- Gremlin — PF2e default
-- Beholder — D&D 5e default
-- Investigator — Call of Cthulhu 7e
-- Skeleton — generic
-- *(Add your own by dropping images in `assets/avatars/<id>/`)*
+To add a custom mascot pack, create `assets/avatars/<your-id>/` with `good.svg`, `risky.svg`, `broken.svg` and register it in `avatar-config.js`.
 
 ### 🔍 Module Scanner
 Reads every active module's manifest and checks:
-- `compatibility.maximum` vs running Foundry version
+- `compatibility.verified` vs running Foundry version
+- `compatibility.maximum` if declared
 - `relationships.requires` — missing dependencies
 - `relationships.conflicts` — declared conflicts
-- Last update date (>180 days = outdated warning)
 - Known heuristic hook collisions between popular modules
 
 ### ⚠️ Runtime Error Monitor
@@ -50,10 +41,10 @@ Intercepts errors silently in the background:
 - `unhandledrejection` — unhandled Promises
 - Optional `console.error` override
 - Stack trace attribution with **high / medium / low** confidence
-- Duplicate aggregation (counts repeats, doesn't spam)
+- Duplicate aggregation
 
 ### 📸 Session Snapshots
-Save the health state before updating modules. Compare before/after to understand exactly what changed and what broke.
+Save the health state before updating modules and compare before/after.
 
 ### 🌐 i18n Ready
 Ships with English and Italian. Add more by contributing a JSON file to `lang/`.
@@ -70,13 +61,10 @@ Ships with English and Italian. Add more by contributing a JSON file to `lang/`.
 | v13 | ✅ Supported |
 | v14+ | ✅ Verified |
 
-Uses `Application` on v10/v11 and `ApplicationV2` on v12+ automatically.
-
 ---
 
 ## Installation
 
-Paste this URL in Foundry's module installer:
 ```
 https://raw.githubusercontent.com/lonelyfrank/good-game/main/module.json
 ```
@@ -87,81 +75,66 @@ https://raw.githubusercontent.com/lonelyfrank/good-game/main/module.json
 
 ```
 good-game/
-├── module.json               # Manifest
+├── module.json
 ├── scripts/
-│   ├── good-game.js          # Entry point
+│   ├── good-game.js
 │   ├── core/
-│   │   ├── scanner.js        # Module manifest analysis
-│   │   ├── scorer.js         # Health score computation
-│   │   ├── error-monitor.js  # Runtime error interception
-│   │   └── snapshots.js      # Session state snapshots
+│   │   ├── scanner.js
+│   │   ├── scorer.js
+│   │   ├── error-monitor.js
+│   │   └── snapshots.js
 │   ├── ui/
-│   │   ├── health-panel.js   # Main ApplicationV2/Application window
-│   │   ├── topbar.js         # Persistent top bar indicator
-│   │   ├── settings.js       # Settings registration
-│   │   └── avatar-config.js  # Avatar pack management
+│   │   ├── health-panel.js
+│   │   ├── topbar.js
+│   │   ├── settings.js
+│   │   └── avatar-config.js
 │   └── utils/
-│       └── constants.js      # Shared constants, penalties, tier thresholds
+│       └── constants.js
 ├── templates/
-│   └── health-panel.hbs      # Handlebars template
+│   └── health-panel.hbs
 ├── styles/
-│   └── good-game.css         # Full stylesheet
+│   └── good-game.css
 ├── lang/
-│   ├── en.json               # English
-│   └── it.json               # Italiano
+│   ├── en.json
+│   └── it.json
 └── assets/
-    └── avatars/              # Mascot image packs
-        ├── otto/             # good.svg, risky.svg, broken.svg
-        ├── goblin/           # good.png, risky.png, broken.png
-        ├── beholder/
-        ├── investigator/
-        └── skeleton/
+    └── avatars/
+        ├── default/    ← good.svg, risky.svg, broken.svg
+        ├── dnd5e/
+        └── coc7/
 ```
 
 ---
 
-## Adding an Avatar Pack
+## Adding a Mascot Pack
 
-1. Create `assets/avatars/<your-id>/` with `good.png`, `risky.png`, `broken.png`
-2. Register the pack in `scripts/ui/avatar-config.js` inside `AVATAR_PACKS`
-3. Set `system: 'yourSystemId'` or `null` for all systems
-4. Done — no other changes needed
+```js
+{
+  id:     'my-mascot',
+  label:  'My Mascot',
+  system: null,
+  states: {
+    good:   'assets/avatars/my-mascot/good.svg',
+    risky:  'assets/avatars/my-mascot/risky.svg',
+    broken: 'assets/avatars/my-mascot/broken.svg',
+  },
+}
+```
 
 ---
 
 ## Tuning the Score Formula
 
-All penalty weights live in `scripts/utils/constants.js` under `PENALTIES`. Adjust them to taste:
-
-```js
-export const PENALTIES = {
-  INCOMPATIBLE_MODULE:  20,
-  MISSING_DEPENDENCY:   15,
-  DECLARED_CONFLICT:    12,
-  HEURISTIC_CONFLICT:    7,
-  OUTDATED_MODULE:       5,
-  // ...
-};
-```
+All penalty weights live in `scripts/utils/constants.js` under `PENALTIES`.
 
 ---
 
 ## Roadmap
 
-- [ ] v0.2 — Conflict Graph (visual dependency graph with D3/SVG)
-- [ ] v0.2 — Performance Monitor (FPS, hook latency per module)
-- [ ] v0.3 — Community Blacklist (crowd-sourced known bad combos)
-- [ ] v0.3 — Auto-fix suggestions per problem
+- [ ] v0.2 — Conflict Graph
+- [ ] v0.2 — Performance Monitor
+- [ ] v0.3 — Community Blacklist
+- [ ] v0.3 — Auto-fix suggestions
 - [ ] v0.4 — Pre-session GO/NO-GO checklist
-- [ ] v0.4 — Snapshot diff UI
 
 ---
-
-## License
-
-MIT — see LICENSE
-
-## Credits
-
-Built with love for the TTRPG community.  
-OTTO the robot mascot © lonelyfrank.

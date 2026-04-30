@@ -36,7 +36,7 @@ export class GGSettings {
       config:  true,
       type:    String,
       choices: Object.fromEntries(AVATAR_PACKS.map(p => [p.id, p.label])),
-      default: 'goblin-pf2e',
+      default: 'default',
     });
 
     // ── Monitor console.error ────────────────────────────────────────

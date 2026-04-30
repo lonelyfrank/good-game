@@ -10,41 +10,41 @@
       "good": "Good Game",
       "risky": "Risky Game",
       "broken": "Broken Game",
-      "good.Desc": "La sessione è tecnicamente stabile. Siete pronti per giocare!",
-      "risky.Desc": "Alcune criticità rilevate. La sessione potrebbe avere comportamenti inattesi.",
-      "broken.Desc": "Problemi critici rilevati. Risolvili prima di iniziare la sessione."
+      "GoodDesc": "La sessione è tecnicamente stabile. Siete pronti per giocare!",
+      "RiskyDesc": "Alcune criticità rilevate. La sessione potrebbe avere comportamenti inattesi.",
+      "BrokenDesc": "Problemi critici rilevati. Risolvili prima di iniziare la sessione."
     },
     "Score": {
       "Summary": "Punteggio: {score}/100 ({tier}) — {critical} critici, {warning} warning"
     },
     "Stats": {
-      "Active":   "moduli attivi",
+      "Active": "moduli attivi",
       "Critical": "critici",
-      "Warning":  "warning",
-      "Errors":   "errori runtime"
+      "Warning": "warning",
+      "Errors": "errori runtime"
     },
     "Tabs": {
-      "Problems":  "Problemi",
-      "Modules":   "Moduli",
-      "Errors":    "Errori Runtime",
+      "Problems": "Problemi",
+      "Modules": "Moduli",
+      "Errors": "Errori Runtime",
       "Snapshots": "Snapshot",
-      "Avatar":    "Mascotte"
+      "Avatar": "Mascotte"
     },
     "Filter": {
-      "All":      "Tutti",
+      "All": "Tutti",
       "Critical": "Critici",
-      "Warning":  "Warning",
-      "Info":     "Info"
+      "Warning": "Warning",
+      "Info": "Info"
     },
     "Severity": {
       "critical": "critico",
-      "warning":  "warning",
-      "info":     "informativo"
+      "warning": "warning",
+      "info": "informativo"
     },
     "ModStatus": {
-      "ok":       "ok",
+      "ok": "ok",
       "critical": "problema critico",
-      "warning":  "attenzione"
+      "warning": "attenzione"
     },
     "Problems": {
       "Empty": "Nessun problema rilevato — buona sessione!"
@@ -53,12 +53,12 @@
       "Empty": "Nessun errore runtime intercettato."
     },
     "Snapshots": {
-      "Save":  "Salva snapshot",
+      "Save": "Salva snapshot",
       "Empty": "Nessuno snapshot salvato.",
       "Saved": "Snapshot \"{label}\" salvato — punteggio {score}/100"
     },
     "Controls": {
-      "OpenPanel":    "Apri GG Health Panel",
+      "OpenPanel": "Apri GG Health Panel",
       "SaveSnapshot": "Salva Snapshot Sessione"
     },
     "TopBar": {
@@ -88,8 +88,11 @@
         "Name": "Posizione barra superiore",
         "Hint": "Dove posizionare l'indicatore GG nell'interfaccia di Foundry.",
         "TopRight": "In alto a destra",
-        "TopLeft":  "In alto a sinistra"
+        "TopLeft": "In alto a sinistra"
       }
+    },
+    "Avatar": {
+      "Default": "Mascotte predefinita"
     }
   }
 }

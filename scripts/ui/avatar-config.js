@@ -16,43 +16,33 @@ import { MODULE_ID, SETTINGS } from '../utils/constants.js';
 export const AVATAR_PACKS = [
 
   {
-    id:      'goblin-pf2e',
-    label:   'Boblin (PF2e Goblin)',
+    id:      'default',
+    label:   game?.i18n?.localize('GG.Avatar.Default') ?? 'Default Mascot',
     system:  null,
     states:  {
-      good:   'assets/avatars/boblin/good.svg',
-      risky:  'assets/avatars/boblin/risky.svg',
-      broken: 'assets/avatars/boblin/broken.svg',
+      good:   'assets/avatars/default/good.svg',
+      risky:  'assets/avatars/default/risky.svg',
+      broken: 'assets/avatars/default/broken.svg',
     },
   },
   {
-    id:      'beholder-dnd5e',
-    label:   'Beholder (D&D 5e)',
+    id:      'dnd5e',
+    label:   'D&D 5e Mascot',
     system:  'dnd5e',
     states:  {
-      good:   'assets/avatars/beholder/good.png',
-      risky:  'assets/avatars/beholder/risky.png',
-      broken: 'assets/avatars/beholder/broken.png',
+      good:   'assets/avatars/dnd5e/good.png',
+      risky:  'assets/avatars/dnd5e/risky.png',
+      broken: 'assets/avatars/dnd5e/broken.png',
     },
   },
   {
-    id:      'investigator-coc',
-    label:   'Investigator (CoC 7e)',
+    id:      'coc7',
+    label:   'CoC 7e Mascot',
     system:  'CoC7',
     states:  {
-      good:   'assets/avatars/investigator/good.png',
-      risky:  'assets/avatars/investigator/risky.png',
-      broken: 'assets/avatars/investigator/broken.png',
-    },
-  },
-  {
-    id:      'skeleton',
-    label:   'Skeleton (generic)',
-    system:  null,
-    states:  {
-      good:   'assets/avatars/skeleton/good.png',
-      risky:  'assets/avatars/skeleton/risky.png',
-      broken: 'assets/avatars/skeleton/broken.png',
+      good:   'assets/avatars/coc7/good.png',
+      risky:  'assets/avatars/coc7/risky.png',
+      broken: 'assets/avatars/coc7/broken.png',
     },
   },
 ];
