@@ -22,6 +22,8 @@
 
   --gg-radius:    6px;
   --gg-radius-lg: 10px;
+
+  --gg-avatar-color: #ffffff;
 }
 
 /* ── Top Bar Indicator ─────────────────────────────────────────────────── */
@@ -43,10 +45,11 @@
 #gg-topbar:hover { background: rgba(0,0,0,0.5); }
 
 .gg-topbar__avatar {
-  width: 22px;
-  height: 22px;
+  width: 24px;
+  height: 24px;
   object-fit: contain;
-  image-rendering: pixelated;
+  color: var(--gg-avatar-color);
+  /* SVG with currentColor will use this color */
 }
 
 .gg-topbar__bar-wrap {
@@ -106,8 +109,8 @@
   align-items: center;
   justify-content: space-between;
   padding: 10px 16px;
-  border-bottom: 1px solid rgba(0,0,0,0.15);
-  background: rgba(0,0,0,0.04);
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+  background: rgba(0,0,0,0.15);
 }
 
 .gg-panel__title {
@@ -127,37 +130,50 @@
 .gg-panel__hero {
   display: flex;
   align-items: center;
-  gap: 20px;
-  padding: 18px 20px 12px;
+  gap: 24px;
+  padding: 20px 20px 12px;
 }
 
 .gg-avatar-wrap {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 4px;
+  gap: 6px;
   flex-shrink: 0;
-  width: 100px;
+  width: 110px;
 }
 
 .gg-avatar {
-  width: 88px;
-  height: 100px;
+  width: 90px;
+  height: 110px;
   object-fit: contain;
-  image-rendering: pixelated;
-  transition: filter 0.3s;
+  /* SVG uses currentColor — set white so black strokes become white */
+  color: var(--gg-avatar-color);
+  /* Subtle glow so the white figure pops on any background */
+  filter: drop-shadow(0 0 6px rgba(255,255,255,0.15));
+  transition: filter 0.3s, transform 0.3s;
 }
+
+.gg-avatar:hover {
+  filter: drop-shadow(0 0 10px rgba(255,255,255,0.25));
+  transform: scale(1.03);
+}
+
+/* Tier-specific tint on the avatar glow */
+.gg-tier-good   .gg-avatar { filter: drop-shadow(0 0 8px rgba(99,153,34,0.4)); }
+.gg-tier-risky  .gg-avatar { filter: drop-shadow(0 0 8px rgba(239,159,39,0.4)); }
+.gg-tier-broken .gg-avatar { filter: drop-shadow(0 0 8px rgba(226,75,74,0.4)); }
 
 .gg-avatar-name {
   font-size: 9px;
-  opacity: 0.45;
+  opacity: 0.4;
   letter-spacing: 0.05em;
   text-align: center;
 }
 
 .gg-gauge-area { flex: 1; }
 
-/* Gauge SVG — uses CSS custom property --gg-score for needle + fill */
+/* ── Gauge SVG ─────────────────────────────────────────────────────────── */
 .gg-gauge { position: relative; }
 
 .gg-gauge__svg {
@@ -167,25 +183,24 @@
   margin: 0 auto;
 }
 
-.gg-gauge__track { stroke: rgba(0,0,0,0.1); }
+.gg-gauge__track { stroke: rgba(255,255,255,0.1); }
 
-.gg-tier-good   .gg-gauge__fill   { stroke: var(--gg-good); }
-.gg-tier-risky  .gg-gauge__fill   { stroke: var(--gg-risky); }
-.gg-tier-broken .gg-gauge__fill   { stroke: var(--gg-broken); }
+.gg-tier-good   .gg-gauge__fill { stroke: var(--gg-good); }
+.gg-tier-risky  .gg-gauge__fill { stroke: var(--gg-risky); }
+.gg-tier-broken .gg-gauge__fill { stroke: var(--gg-broken); }
 
 .gg-gauge__fill {
   stroke-dasharray: 258;
-  /* stroke-dashoffset animated via JS */
   transition: stroke-dashoffset 0.6s ease, stroke 0.4s;
 }
 
 .gg-gauge__needle {
-  stroke: currentColor;
+  stroke: rgba(255,255,255,0.85);
   transform-origin: 100px 100px;
   transition: transform 0.6s ease;
 }
 
-.gg-gauge__pivot { fill: currentColor; }
+.gg-gauge__pivot { fill: rgba(255,255,255,0.85); }
 
 .gg-gauge__label {
   text-align: center;
@@ -193,51 +208,51 @@
 }
 
 .gg-gauge__score {
-  font-size: 28px;
+  font-size: 32px;
   font-weight: 700;
   line-height: 1;
 }
 
-.gg-tier-good   .gg-gauge__score { color: var(--gg-good-text); }
-.gg-tier-risky  .gg-gauge__score { color: var(--gg-risky-text); }
-.gg-tier-broken .gg-gauge__score { color: var(--gg-broken-text); }
+.gg-tier-good   .gg-gauge__score { color: var(--gg-good); }
+.gg-tier-risky  .gg-gauge__score { color: var(--gg-risky); }
+.gg-tier-broken .gg-gauge__score { color: var(--gg-broken); }
 
-.gg-gauge__unit { font-size: 11px; opacity: 0.4; }
+.gg-gauge__unit { font-size: 12px; opacity: 0.35; }
 
 .gg-state-name {
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 700;
-  margin-top: 6px;
+  margin-top: 8px;
 }
 
-.gg-tier-good   .gg-state-name { color: var(--gg-good-text); }
-.gg-tier-risky  .gg-state-name { color: var(--gg-risky-text); }
-.gg-tier-broken .gg-state-name { color: var(--gg-broken-text); }
+.gg-tier-good   .gg-state-name { color: var(--gg-good); }
+.gg-tier-risky  .gg-state-name { color: var(--gg-risky); }
+.gg-tier-broken .gg-state-name { color: var(--gg-broken); }
 
 .gg-state-desc {
   font-size: 12px;
-  opacity: 0.65;
+  opacity: 0.6;
   line-height: 1.5;
-  margin-top: 3px;
+  margin-top: 4px;
 }
 
 .gg-legend {
   display: flex;
-  gap: 8px;
-  margin-top: 8px;
+  gap: 6px;
+  margin-top: 10px;
   flex-wrap: wrap;
 }
 
 .gg-legend-item {
   font-size: 10px;
   font-weight: 600;
-  padding: 2px 7px;
+  padding: 2px 8px;
   border-radius: 99px;
 }
 
-.gg-legend-item.gg-tier-good   { background: var(--gg-good-bg);   color: var(--gg-good-text); }
-.gg-legend-item.gg-tier-risky  { background: var(--gg-risky-bg);  color: var(--gg-risky-text); }
-.gg-legend-item.gg-tier-broken { background: var(--gg-broken-bg); color: var(--gg-broken-text); }
+.gg-legend-item.gg-tier-good   { background: rgba(99,153,34,0.18);  color: var(--gg-good); }
+.gg-legend-item.gg-tier-risky  { background: rgba(239,159,39,0.18); color: var(--gg-risky); }
+.gg-legend-item.gg-tier-broken { background: rgba(226,75,74,0.18);  color: var(--gg-broken); }
 
 /* ── Stats Row ─────────────────────────────────────────────────────────── */
 .gg-stats-row {
@@ -245,29 +260,28 @@
   grid-template-columns: repeat(4, 1fr);
   gap: 8px;
   padding: 12px 16px;
-  border-top: 1px solid rgba(0,0,0,0.08);
+  border-top: 1px solid rgba(255,255,255,0.06);
 }
 
 .gg-stat {
-  background: rgba(0,0,0,0.04);
+  background: rgba(255,255,255,0.04);
   border-radius: var(--gg-radius);
   padding: 8px 10px;
   text-align: center;
 }
 
 .gg-stat__num { font-size: 20px; font-weight: 700; line-height: 1; }
-.gg-stat__label { font-size: 9px; opacity: 0.55; letter-spacing: 0.04em; margin-top: 3px; }
-.gg-stat--critical .gg-stat__num { color: var(--gg-broken-text); }
-.gg-stat--warning  .gg-stat__num { color: var(--gg-risky-text); }
+.gg-stat__label { font-size: 9px; opacity: 0.45; letter-spacing: 0.04em; margin-top: 3px; }
+.gg-stat--critical .gg-stat__num { color: var(--gg-broken); }
+.gg-stat--warning  .gg-stat__num { color: var(--gg-risky); }
 
 /* ── Tabs ──────────────────────────────────────────────────────────────── */
 .gg-tabs {
   display: flex;
-  border-top: 1px solid rgba(0,0,0,0.08);
-  border-bottom: 1px solid rgba(0,0,0,0.08);
+  border-top: 1px solid rgba(255,255,255,0.06);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
   padding: 0 12px;
-  gap: 0;
-  background: rgba(0,0,0,0.02);
+  background: rgba(0,0,0,0.1);
 }
 
 .gg-tab {
@@ -279,12 +293,12 @@
   border: none;
   background: none;
   border-bottom: 2px solid transparent;
-  opacity: 0.5;
+  opacity: 0.45;
   transition: opacity 0.15s, border-color 0.15s;
   color: inherit;
 }
 
-.gg-tab:hover { opacity: 0.8; }
+.gg-tab:hover { opacity: 0.75; }
 .gg-tab.active { opacity: 1; border-bottom-color: currentColor; }
 
 .gg-tab-content { display: none; padding: 12px 16px; }
@@ -298,16 +312,16 @@
   font-weight: 600;
   padding: 3px 9px;
   border-radius: 99px;
-  border: 1px solid rgba(0,0,0,0.15);
+  border: 1px solid rgba(255,255,255,0.15);
   background: none;
   cursor: pointer;
-  opacity: 0.6;
+  opacity: 0.5;
   transition: opacity 0.15s, background 0.15s;
   color: inherit;
 }
 
-.gg-filter-chip:hover { opacity: 0.9; }
-.gg-filter-chip.active { opacity: 1; background: rgba(0,0,0,0.08); }
+.gg-filter-chip:hover { opacity: 0.85; }
+.gg-filter-chip.active { opacity: 1; background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.3); }
 
 .gg-problem-list { display: flex; flex-direction: column; gap: 6px; max-height: 260px; overflow-y: auto; }
 
@@ -315,11 +329,14 @@
   display: flex;
   align-items: flex-start;
   gap: 8px;
-  padding: 8px 10px;
+  padding: 9px 11px;
   border-radius: var(--gg-radius);
-  background: rgba(0,0,0,0.03);
-  border: 1px solid rgba(0,0,0,0.07);
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.07);
+  transition: border-color 0.15s;
 }
+
+.gg-problem-row:hover { border-color: rgba(255,255,255,0.14); }
 
 .gg-problem-icon {
   width: 16px; height: 16px;
@@ -333,14 +350,14 @@
   margin-top: 1px;
 }
 
-.gg-icon-critical { background: var(--gg-broken-bg); color: var(--gg-broken-text); }
-.gg-icon-warning  { background: var(--gg-risky-bg);  color: var(--gg-risky-text); }
-.gg-icon-info     { background: var(--gg-info-bg);   color: var(--gg-info-text); }
+.gg-icon-critical { background: rgba(226,75,74,0.2);   color: var(--gg-broken); }
+.gg-icon-warning  { background: rgba(239,159,39,0.2);  color: var(--gg-risky); }
+.gg-icon-info     { background: rgba(24,95,165,0.2);   color: #5ba4e6; }
 
 .gg-problem-body { flex: 1; }
 .gg-problem-name { font-size: 12px; font-weight: 600; margin-bottom: 2px; }
-.gg-problem-detail { font-size: 11px; opacity: 0.65; line-height: 1.4; }
-.gg-problem-penalty { font-size: 10px; opacity: 0.4; white-space: nowrap; }
+.gg-problem-detail { font-size: 11px; opacity: 0.55; line-height: 1.4; }
+.gg-problem-penalty { font-size: 10px; opacity: 0.35; white-space: nowrap; }
 
 /* ── Modules Grid ──────────────────────────────────────────────────────── */
 .gg-module-grid {
@@ -354,19 +371,15 @@
 .gg-mod-card {
   padding: 8px 10px;
   border-radius: var(--gg-radius);
-  border: 1px solid rgba(0,0,0,0.1);
-  background: rgba(0,0,0,0.03);
+  border: 1px solid rgba(255,255,255,0.07);
+  background: rgba(255,255,255,0.03);
 }
 
 .gg-mod-name { font-size: 11px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.gg-mod-ver  { font-size: 9px; opacity: 0.4; margin-bottom: 3px; }
-.gg-mod-status { font-size: 10px; display: flex; align-items: center; gap: 4px; opacity: 0.65; }
+.gg-mod-ver  { font-size: 9px; opacity: 0.35; margin-bottom: 3px; }
+.gg-mod-status { font-size: 10px; display: flex; align-items: center; gap: 4px; opacity: 0.6; }
 
-.gg-mod-dot {
-  width: 5px; height: 5px;
-  border-radius: 50%;
-  flex-shrink: 0;
-}
+.gg-mod-dot { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; }
 
 .gg-mod-ok       .gg-mod-dot { background: var(--gg-good); }
 .gg-mod-critical .gg-mod-dot { background: var(--gg-broken); }
@@ -376,15 +389,15 @@
 .gg-error-row {
   padding: 8px 10px;
   border-radius: var(--gg-radius);
-  background: rgba(0,0,0,0.03);
-  border: 1px solid rgba(0,0,0,0.07);
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.07);
   margin-bottom: 6px;
 }
 
 .gg-error-meta { display: flex; align-items: center; gap: 6px; margin-bottom: 3px; }
 .gg-error-module { font-size: 11px; font-weight: 600; }
-.gg-error-count { font-size: 10px; opacity: 0.45; margin-left: auto; }
-.gg-error-msg { font-size: 11px; opacity: 0.65; font-family: monospace; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.gg-error-count { font-size: 10px; opacity: 0.4; margin-left: auto; }
+.gg-error-msg { font-size: 11px; opacity: 0.55; font-family: monospace; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
 /* ── Snapshots ─────────────────────────────────────────────────────────── */
 .gg-snapshot-actions { margin-bottom: 10px; }
@@ -395,18 +408,18 @@
   justify-content: space-between;
   padding: 8px 10px;
   border-radius: var(--gg-radius);
-  background: rgba(0,0,0,0.03);
-  border: 1px solid rgba(0,0,0,0.07);
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.07);
   margin-bottom: 5px;
 }
 
 .gg-snapshot-label { font-size: 12px; font-weight: 600; }
-.gg-snapshot-meta  { font-size: 10px; opacity: 0.5; margin-top: 1px; }
+.gg-snapshot-meta  { font-size: 10px; opacity: 0.45; margin-top: 1px; }
 .gg-snapshot-score { font-size: 22px; font-weight: 700; }
 
-.gg-snapshot-score.gg-tier-good   { color: var(--gg-good-text); }
-.gg-snapshot-score.gg-tier-risky  { color: var(--gg-risky-text); }
-.gg-snapshot-score.gg-tier-broken { color: var(--gg-broken-text); }
+.gg-snapshot-score.gg-tier-good   { color: var(--gg-good); }
+.gg-snapshot-score.gg-tier-risky  { color: var(--gg-risky); }
+.gg-snapshot-score.gg-tier-broken { color: var(--gg-broken); }
 
 /* ── Avatar Picker ─────────────────────────────────────────────────────── */
 .gg-avatar-picker {
@@ -423,23 +436,23 @@
   padding: 10px 6px;
   border-radius: var(--gg-radius-lg);
   border: 2px solid transparent;
-  background: rgba(0,0,0,0.04);
+  background: rgba(255,255,255,0.04);
   cursor: pointer;
   transition: border-color 0.15s, background 0.15s;
 }
 
-.gg-avatar-option:hover { background: rgba(0,0,0,0.08); }
-.gg-avatar-option.active { border-color: var(--gg-good); background: var(--gg-good-bg); }
+.gg-avatar-option:hover { background: rgba(255,255,255,0.08); }
+.gg-avatar-option.active { border-color: var(--gg-good); background: rgba(99,153,34,0.12); }
 
 .gg-avatar-option__img {
   width: 64px;
   height: 64px;
   object-fit: contain;
-  image-rendering: pixelated;
+  color: var(--gg-avatar-color);
 }
 
 .gg-avatar-option__label { font-size: 10px; font-weight: 600; text-align: center; }
-.gg-avatar-option__system { font-size: 9px; opacity: 0.45; }
+.gg-avatar-option__system { font-size: 9px; opacity: 0.4; }
 
 /* ── Shared Utilities ──────────────────────────────────────────────────── */
 .gg-badge {
@@ -447,47 +460,46 @@
   font-weight: 600;
   padding: 2px 7px;
   border-radius: 99px;
-  background: rgba(0,0,0,0.08);
-  opacity: 0.8;
+  background: rgba(255,255,255,0.08);
 }
 
-.gg-badge--critical { background: var(--gg-broken-bg); color: var(--gg-broken-text); }
-.gg-badge--warning  { background: var(--gg-risky-bg);  color: var(--gg-risky-text); }
-.gg-badge--info     { background: var(--gg-info-bg);   color: var(--gg-info-text); }
-.gg-badge--high     { background: var(--gg-broken-bg); color: var(--gg-broken-text); }
-.gg-badge--medium   { background: var(--gg-risky-bg);  color: var(--gg-risky-text); }
-.gg-badge--low      { background: var(--gg-info-bg);   color: var(--gg-info-text); }
+.gg-badge--critical { background: rgba(226,75,74,0.2);  color: var(--gg-broken); }
+.gg-badge--warning  { background: rgba(239,159,39,0.2); color: var(--gg-risky); }
+.gg-badge--info     { background: rgba(24,95,165,0.2);  color: #5ba4e6; }
+.gg-badge--high     { background: rgba(226,75,74,0.2);  color: var(--gg-broken); }
+.gg-badge--medium   { background: rgba(239,159,39,0.2); color: var(--gg-risky); }
+.gg-badge--low      { background: rgba(24,95,165,0.2);  color: #5ba4e6; }
 
 .gg-btn-primary {
   font-size: 11px;
   font-weight: 600;
   padding: 5px 12px;
   border-radius: var(--gg-radius);
-  border: none;
-  background: var(--gg-good-bg);
-  color: var(--gg-good-text);
+  border: 1px solid var(--gg-good);
+  background: rgba(99,153,34,0.15);
+  color: var(--gg-good);
   cursor: pointer;
-  transition: opacity 0.15s;
+  transition: background 0.15s;
 }
 
-.gg-btn-primary:hover { opacity: 0.8; }
-.gg-btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
+.gg-btn-primary:hover { background: rgba(99,153,34,0.25); }
+.gg-btn-primary:disabled { opacity: 0.35; cursor: not-allowed; }
 
 .gg-empty {
   text-align: center;
   padding: 24px;
-  opacity: 0.35;
+  opacity: 0.3;
   font-size: 13px;
   font-style: italic;
 }
 
 .gg-panel__footer {
   padding: 8px 16px;
-  border-top: 1px solid rgba(0,0,0,0.08);
+  border-top: 1px solid rgba(255,255,255,0.06);
   font-size: 10px;
-  opacity: 0.4;
+  opacity: 0.35;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: rgba(0,0,0,0.02);
+  background: rgba(0,0,0,0.1);
 }
