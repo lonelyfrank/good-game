@@ -14,6 +14,19 @@ import { GGAvatarConfig }      from './avatar-config.js';
 export class GGTopBar {
 
   static _el = null;
+  static _delegated = false;
+
+  /**
+   * Register a single document-level click delegate — called once.
+   * This survives any DOM manipulation Foundry does after injection.
+   */
+  static _ensureDelegate() {
+    if (this._delegated) return;
+    document.addEventListener('click', (e) => {
+      if (e.target.closest('#gg-topbar')) GGHealthPanel.open();
+    });
+    this._delegated = true;
+  }
 
   /**
    * Inject the indicator into #navigation or #controls depending on Foundry version.
@@ -39,8 +52,6 @@ export class GGTopBar {
       <span class="gg-topbar__label">${game.i18n.localize(`GG.Tier.${tier.key}`)}</span>
     `;
 
-    el.addEventListener('click', () => GGHealthPanel.open());
-
     // Injection target differs slightly across Foundry versions
     // v12+ has #ui-top; v10/11 use #navigation
     const target =
@@ -50,6 +61,7 @@ export class GGTopBar {
 
     target.appendChild(el);
     this._el = el;
+    this._ensureDelegate();
   }
 
   /**
