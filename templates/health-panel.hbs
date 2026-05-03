@@ -142,7 +142,7 @@
   <div class="gg-tab-content" id="gg-tab-errors">
     {{#if errors.length}}
       {{#each errors}}
-      <div class="gg-error-row">
+      <div class="gg-error-row" data-key="{{key}}" data-module="{{attributedModule}}" data-confidence="{{confidence}}">
         <div class="gg-error-meta">
           <span class="gg-badge gg-badge--{{confidence}}">{{confidence}}</span>
           <span class="gg-error-module">{{attributedModule}}</span>

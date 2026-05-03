@@ -5,10 +5,11 @@
  * No external libraries — plain JS physics simulation + SVG DOM.
  */
 
-const W   = 560;
-const H   = 330;
-const R   = 9;
-const PAD = R + 8;
+const W      = 560;
+const H      = 330;
+const R_BASE = 9;
+const R_MAX  = 16;
+const PAD    = R_MAX + 8;
 
 const COLOR = {
   ok:       '#639922',
@@ -107,16 +108,21 @@ export class GGGraph {
     // Nodes
     const nodeG = _el('g');
     nodes.forEach((n, i) => {
+      // Scale radius by penalty: heavier nodes appear bigger
+      const nodeR = n.penalty > 0
+        ? Math.min(R_BASE + Math.floor(n.penalty / 7), R_MAX)
+        : R_BASE;
+
       const g = _el('g', {
         class:     'gg-graph-node',
         transform: `translate(${n.x},${n.y})`,
         'data-id': n.id,
       });
 
-      // Pulse ring on worst node (only if it has penalties)
+      // Pulse ring on worst node
       if (i === worstIdx && n.penalty > 0) {
         g.appendChild(_el('circle', {
-          r: R + 6, fill: 'none',
+          r: nodeR + 6, fill: 'none',
           stroke: COLOR[n.status] ?? COLOR.critical,
           'stroke-width': '2',
           class: 'gg-graph-pulse',
@@ -124,16 +130,28 @@ export class GGGraph {
       }
 
       g.appendChild(_el('circle', {
-        r:              R,
+        r:              nodeR,
         fill:           COLOR[n.status] ?? COLOR.ok,
         stroke:         'rgba(0,0,0,0.35)',
         'stroke-width': '1.5',
         class:          'gg-graph-circle',
       }));
 
+      // Penalty badge inside node
+      if (n.penalty > 0) {
+        const badge = _el('text', {
+          y: '3.5', 'text-anchor': 'middle',
+          'font-size': Math.max(6, nodeR - 3).toString(),
+          'font-weight': '700', fill: 'rgba(255,255,255,0.92)',
+          'pointer-events': 'none',
+        });
+        badge.textContent = `-${n.penalty}`;
+        g.appendChild(badge);
+      }
+
       const shortLabel = n.label.length > 13 ? n.label.slice(0, 12) + '…' : n.label;
       const txt = _el('text', {
-        y: R + 11, 'text-anchor': 'middle',
+        y: nodeR + 11, 'text-anchor': 'middle',
         'font-size': '7.5', fill: 'rgba(255,255,255,0.65)',
         'pointer-events': 'none',
       });

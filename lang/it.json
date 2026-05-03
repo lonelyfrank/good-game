@@ -112,6 +112,11 @@
     "Graph": {
       "ClickHint": "Clicca un nodo per vedere i dettagli del modulo."
     },
+    "ErrorSuggestion": {
+      "High":   "Probabilmente causato da {module} — prova a disabilitarlo per verificare se l'errore scompare.",
+      "Medium": "Potrebbe essere legato a {module} — controlla aggiornamenti o conflitti con altri moduli.",
+      "Low":    "Origine incerta — potrebbe essere un conflitto tra moduli o un errore di Foundry stesso."
+    },
     "Diff": {
       "Button":      "Diff",
       "Resolved":    "Problemi risolti",

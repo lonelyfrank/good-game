@@ -395,10 +395,37 @@
   margin-bottom: 6px;
 }
 
+.gg-error-row { cursor: pointer; }
+.gg-error-row:hover { border-color: rgba(255,255,255,0.14); }
+
 .gg-error-meta { display: flex; align-items: center; gap: 6px; margin-bottom: 3px; }
 .gg-error-module { font-size: 11px; font-weight: 600; }
 .gg-error-count { font-size: 10px; opacity: 0.4; margin-left: auto; }
 .gg-error-msg { font-size: 11px; opacity: 0.55; font-family: monospace; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+.gg-error-detail { margin-top: 8px; }
+
+.gg-error-suggestion {
+  font-size: 10px;
+  padding: 4px 8px;
+  border-radius: var(--gg-radius);
+  background: rgba(255,255,255,0.05);
+  color: rgba(255,255,255,0.6);
+  margin-bottom: 5px;
+}
+
+.gg-error-stack {
+  font-size: 9px;
+  font-family: monospace;
+  background: rgba(0,0,0,0.3);
+  border-radius: var(--gg-radius);
+  padding: 6px 8px;
+  margin: 0;
+  white-space: pre-wrap;
+  word-break: break-all;
+  opacity: 0.45;
+  line-height: 1.5;
+}
 
 /* ── Snapshots ─────────────────────────────────────────────────────────── */
 .gg-snapshot-actions { margin-bottom: 10px; }

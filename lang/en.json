@@ -112,6 +112,11 @@
     "Graph": {
       "ClickHint": "Click a node to see module details."
     },
+    "ErrorSuggestion": {
+      "High":   "Likely caused by {module} — try disabling it to see if the error disappears.",
+      "Medium": "May be related to {module} — check for updates or conflicts with other modules.",
+      "Low":    "Origin unclear — could be a module conflict or a Foundry core issue."
+    },
     "Diff": {
       "Button":      "Diff",
       "Resolved":    "Resolved problems",

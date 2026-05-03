@@ -160,6 +160,29 @@ function _bindEvents(el) {
     if (gg) GGSnapshots.save(gg.lastScore, gg.lastScan);
   });
 
+  // Error row — click to expand suggestion + stack excerpt
+  el.querySelectorAll('.gg-error-row').forEach(row => {
+    row.addEventListener('click', () => {
+      const existing = row.querySelector('.gg-error-detail');
+      if (existing) { existing.remove(); return; }
+
+      const key  = row.dataset.key;
+      const err  = GGErrorMonitor.getErrors().find(e => e.key === key);
+      if (!err) return;
+
+      const suggestion = _errorSuggestion(err);
+      const stackLines = (err.stack ?? '')
+        .split('\n').map(l => l.trim()).filter(Boolean).slice(0, 4).join('\n');
+
+      const detail = document.createElement('div');
+      detail.className = 'gg-error-detail';
+      detail.innerHTML = `<div class="gg-error-suggestion">→ ${suggestion}</div>${
+        stackLines ? `<pre class="gg-error-stack">${stackLines}</pre>` : ''
+      }`;
+      row.appendChild(detail);
+    });
+  });
+
   // Avatar picker
   el.querySelectorAll('.gg-avatar-option').forEach(opt => {
     opt.addEventListener('click', async () => {
@@ -220,6 +243,21 @@ function _bindEvents(el) {
       panel.style.display    = 'block';
     });
   });
+}
+
+/* ------------------------------------------------------------------ */
+/*  Error suggestion helper                                             */
+/* ------------------------------------------------------------------ */
+
+function _errorSuggestion(err) {
+  const mod = err.attributedModule;
+  if (err.confidence === 'high' && mod) {
+    return game.i18n.format('GG.ErrorSuggestion.High', { module: mod });
+  }
+  if (err.confidence === 'medium' && mod) {
+    return game.i18n.format('GG.ErrorSuggestion.Medium', { module: mod });
+  }
+  return game.i18n.localize('GG.ErrorSuggestion.Low');
 }
 
 /* ------------------------------------------------------------------ */
