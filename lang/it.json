@@ -99,6 +99,22 @@
       "Boblin": "Boblin",
       "Otto":   "Otto",
       "Borbok": "Borbok"
+    },
+    "Suggestion": {
+      "Incompatible":      "Aggiorna il modulo o disabilitalo finché non supporta la versione corrente di Foundry.",
+      "Unverified":        "Testa manualmente la compatibilità o cerca una versione aggiornata nel catalogo.",
+      "Outdated":          "Cerca aggiornamenti nel catalogo moduli di Foundry.",
+      "MissingDep":        "Installa e attiva il modulo richiesto prima di avviare la sessione.",
+      "DeclaredConflict":  "Disabilita uno dei due moduli in conflitto.",
+      "HeuristicConflict": "Valuta se entrambi i moduli sono necessari; prova a disabilitarne uno."
+    },
+    "Diff": {
+      "Button":      "Diff",
+      "Resolved":    "Problemi risolti",
+      "New":         "Nuovi problemi",
+      "NoneResolved":"Nessun problema risolto rispetto a questo snapshot.",
+      "NoneNew":     "Nessun nuovo problema rispetto a questo snapshot.",
+      "ScoreDelta":  "Punteggio: {before} → {after}"
     }
   }
 }

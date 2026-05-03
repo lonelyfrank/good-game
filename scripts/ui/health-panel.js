@@ -157,6 +157,59 @@ function _bindEvents(el) {
       game.goodGame?.refresh();
     });
   });
+
+  // Snapshot diff
+  el.querySelectorAll('.gg-diff-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const panel = el.querySelector('#gg-diff-panel');
+      if (!panel) return;
+
+      const snapId = btn.dataset.id;
+
+      // Toggle off if already open for this snapshot
+      if (panel.dataset.activeId === snapId && panel.style.display !== 'none') {
+        panel.style.display = 'none';
+        panel.dataset.activeId = '';
+        return;
+      }
+
+      const snap    = GGSnapshots.get(snapId);
+      const current = game.goodGame?.lastScore;
+      if (!snap || !current) return;
+
+      const delta    = current.value - snap.score;
+      const snapKeys = new Set(snap.problems.map(p => `${p.source}::${p.type}`));
+      const currKeys = new Set(current.breakdown.map(p => `${p.source}::${p.type}`));
+      const resolved = snap.problems.filter(p => !currKeys.has(`${p.source}::${p.type}`));
+      const newProbs = current.breakdown.filter(p => !snapKeys.has(`${p.source}::${p.type}`));
+
+      const labelEl = panel.querySelector('.gg-diff-label');
+      const deltaEl = panel.querySelector('.gg-diff-delta');
+      if (labelEl) labelEl.textContent = snap.label;
+      if (deltaEl) {
+        const sign = delta >= 0 ? '+' : '';
+        deltaEl.textContent = `${snap.score} → ${current.value} (${sign}${delta})`;
+        deltaEl.className   = `gg-diff-delta ${delta >= 0 ? 'gg-diff-improved' : 'gg-diff-worsened'}`;
+      }
+
+      const resolvedList = panel.querySelector('#gg-diff-resolved-list');
+      if (resolvedList) {
+        resolvedList.innerHTML = resolved.length
+          ? resolved.map(p => `<div class="gg-diff-item gg-diff-item--resolved"><span>✓</span><span><strong>${p.source}</strong> — ${p.message}</span></div>`).join('')
+          : `<div class="gg-diff-empty">${game.i18n.localize('GG.Diff.NoneResolved')}</div>`;
+      }
+
+      const newList = panel.querySelector('#gg-diff-new-list');
+      if (newList) {
+        newList.innerHTML = newProbs.length
+          ? newProbs.map(p => `<div class="gg-diff-item gg-diff-item--new"><span>!</span><span><strong>${p.source}</strong> — ${p.message}</span></div>`).join('')
+          : `<div class="gg-diff-empty">${game.i18n.localize('GG.Diff.NoneNew')}</div>`;
+      }
+
+      panel.dataset.activeId = snapId;
+      panel.style.display    = 'block';
+    });
+  });
 }
 
 /* ------------------------------------------------------------------ */

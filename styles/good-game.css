@@ -349,6 +349,15 @@
 .gg-problem-body { flex: 1; }
 .gg-problem-name { font-size: 12px; font-weight: 600; margin-bottom: 2px; }
 .gg-problem-detail { font-size: 11px; opacity: 0.55; line-height: 1.4; }
+.gg-problem-suggestion {
+  font-size: 10px;
+  margin-top: 4px;
+  padding: 3px 7px;
+  border-radius: var(--gg-radius);
+  background: rgba(255,255,255,0.05);
+  color: rgba(255,255,255,0.55);
+  line-height: 1.4;
+}
 .gg-problem-penalty { font-size: 10px; opacity: 0.35; white-space: nowrap; }
 
 /* ── Modules Grid ──────────────────────────────────────────────────────── */
@@ -405,6 +414,13 @@
   margin-bottom: 5px;
 }
 
+.gg-snapshot-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
 .gg-snapshot-label { font-size: 12px; font-weight: 600; }
 .gg-snapshot-meta  { font-size: 10px; opacity: 0.45; margin-top: 1px; }
 .gg-snapshot-score { font-size: 22px; font-weight: 700; }
@@ -412,6 +428,82 @@
 .gg-snapshot-score.gg-tier-good   { color: var(--gg-good); }
 .gg-snapshot-score.gg-tier-risky  { color: var(--gg-risky); }
 .gg-snapshot-score.gg-tier-broken { color: var(--gg-broken); }
+
+.gg-diff-btn {
+  font-size: 10px;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: var(--gg-radius);
+  border: 1px solid rgba(255,255,255,0.15);
+  background: none;
+  color: inherit;
+  cursor: pointer;
+  opacity: 0.5;
+  transition: opacity 0.15s, background 0.15s;
+}
+.gg-diff-btn:hover { opacity: 1; background: rgba(255,255,255,0.07); }
+
+/* ── Diff Panel ──────────────────────────────────────────────────────────── */
+.gg-diff-panel {
+  margin-top: 8px;
+  border-radius: var(--gg-radius-lg);
+  border: 1px solid rgba(255,255,255,0.1);
+  background: rgba(0,0,0,0.2);
+  overflow: hidden;
+}
+
+.gg-diff-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  background: rgba(255,255,255,0.04);
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+  font-size: 11px;
+}
+
+.gg-diff-label { font-weight: 600; opacity: 0.7; }
+
+.gg-diff-delta {
+  font-size: 13px;
+  font-weight: 700;
+}
+.gg-diff-improved { color: var(--gg-good); }
+.gg-diff-worsened { color: var(--gg-broken); }
+
+.gg-diff-body {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: rgba(255,255,255,0.05);
+}
+
+.gg-diff-section {
+  padding: 10px 12px;
+  background: rgba(0,0,0,0.15);
+}
+
+.gg-diff-section-title {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  margin-bottom: 6px;
+  opacity: 0.6;
+}
+.gg-diff-section-title.resolved { color: var(--gg-good); }
+.gg-diff-section-title.new      { color: var(--gg-broken); }
+
+.gg-diff-item {
+  display: flex;
+  gap: 6px;
+  font-size: 10px;
+  line-height: 1.5;
+  padding: 2px 0;
+}
+.gg-diff-item--resolved span:first-child { color: var(--gg-good); font-weight: 700; }
+.gg-diff-item--new      span:first-child { color: var(--gg-broken); font-weight: 700; }
+
+.gg-diff-empty { font-size: 10px; opacity: 0.35; font-style: italic; }
 
 /* ── Avatar Picker ─────────────────────────────────────────────────────── */
 .gg-avatar-picker {
@@ -440,7 +532,7 @@
   width: 64px;
   height: 64px;
   object-fit: contain;
-  color: var(--gg-avatar-color);
+  filter: brightness(0) invert(1);
 }
 
 .gg-avatar-option__label { font-size: 10px; font-weight: 600; text-align: center; }

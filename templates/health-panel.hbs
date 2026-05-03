@@ -104,6 +104,7 @@
           <div class="gg-problem-body">
             <div class="gg-problem-name">{{source}}</div>
             <div class="gg-problem-detail">{{message}}</div>
+            {{#if suggestion}}<div class="gg-problem-suggestion">→ {{localize suggestion}}</div>{{/if}}
             <span class="gg-badge gg-badge--{{severity}}">{{localize (concat "GG.Severity." severity)}}</span>
           </div>
           <div class="gg-problem-penalty">−{{penalty}} pt</div>
@@ -161,9 +162,28 @@
           <div class="gg-snapshot-label">{{label}}</div>
           <div class="gg-snapshot-meta">{{score}}/100 · {{tier}} · {{modules.foundry}}</div>
         </div>
-        <div class="gg-snapshot-score gg-tier-{{tier}}">{{score}}</div>
+        <div class="gg-snapshot-right">
+          <div class="gg-snapshot-score gg-tier-{{tier}}">{{score}}</div>
+          <button class="gg-diff-btn" data-id="{{id}}">{{localize "GG.Diff.Button"}}</button>
+        </div>
       </div>
       {{/each}}
+      <div class="gg-diff-panel" id="gg-diff-panel" style="display:none">
+        <div class="gg-diff-header">
+          <span class="gg-diff-label"></span>
+          <span class="gg-diff-delta"></span>
+        </div>
+        <div class="gg-diff-body">
+          <div class="gg-diff-section">
+            <div class="gg-diff-section-title resolved">{{localize "GG.Diff.Resolved"}}</div>
+            <div id="gg-diff-resolved-list"></div>
+          </div>
+          <div class="gg-diff-section">
+            <div class="gg-diff-section-title new">{{localize "GG.Diff.New"}}</div>
+            <div id="gg-diff-new-list"></div>
+          </div>
+        </div>
+      </div>
     {{else}}
       <div class="gg-empty">{{localize "GG.Snapshots.Empty"}}</div>
     {{/if}}

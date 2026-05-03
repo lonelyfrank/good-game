@@ -99,6 +99,22 @@
       "Boblin": "Boblin",
       "Otto":   "Otto",
       "Borbok": "Borbok"
+    },
+    "Suggestion": {
+      "Incompatible":      "Update or disable this module until it supports your current Foundry version.",
+      "Unverified":        "Manually test compatibility or look for an updated version in the module browser.",
+      "Outdated":          "Check for updates in the Foundry module browser.",
+      "MissingDep":        "Install and activate the required module before starting your session.",
+      "DeclaredConflict":  "Disable one of the two conflicting modules.",
+      "HeuristicConflict": "Consider whether both modules are needed; try disabling one."
+    },
+    "Diff": {
+      "Button":      "Diff",
+      "Resolved":    "Resolved problems",
+      "New":         "New problems",
+      "NoneResolved":"No problems resolved since this snapshot.",
+      "NoneNew":     "No new problems since this snapshot.",
+      "ScoreDelta":  "Score: {before} → {after}"
     }
   }
 }

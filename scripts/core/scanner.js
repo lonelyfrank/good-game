@@ -73,22 +73,24 @@ export class GGScanner {
     const compatStatus = this._checkCompatibility(compat, foundryVersion);
     if (compatStatus.incompatible) {
       problems.push({
-        type:     'incompatible',
-        severity: SEVERITY.CRITICAL,
-        penalty:  PENALTIES.INCOMPATIBLE_MODULE,
-        message:  `Verified for v${compat.verified ?? '?'}, running v${foundryVersion}`,
-        moduleId: id,
+        type:       'incompatible',
+        severity:   SEVERITY.CRITICAL,
+        penalty:    PENALTIES.INCOMPATIBLE_MODULE,
+        message:    `Verified for v${compat.verified ?? '?'}, running v${foundryVersion}`,
+        suggestion: 'GG.Suggestion.Incompatible',
+        moduleId:   id,
       });
     }
 
     // 2. Unverified (no verified field, or verified is very old)
     if (!compat.verified) {
       problems.push({
-        type:     'unverified',
-        severity: SEVERITY.INFO,
-        penalty:  PENALTIES.UNVERIFIED_MODULE,
-        message:  'No verified version declared in manifest',
-        moduleId: id,
+        type:       'unverified',
+        severity:   SEVERITY.INFO,
+        penalty:    PENALTIES.UNVERIFIED_MODULE,
+        message:    'No verified version declared in manifest',
+        suggestion: 'GG.Suggestion.Unverified',
+        moduleId:   id,
       });
     }
 
@@ -96,11 +98,12 @@ export class GGScanner {
     const outdated = this._checkOutdated(data, foundryVersion);
     if (outdated.isOutdated) {
       problems.push({
-        type:     'outdated',
-        severity: SEVERITY.WARNING,
-        penalty:  PENALTIES.OUTDATED_MODULE,
-        message:  outdated.daysAgo ? `Last update: ${outdated.daysAgo} days ago` : `Verified for v${outdated.verMajor}, running v${foundryVersion.split('.')[0]}`,
-        moduleId: id,
+        type:       'outdated',
+        severity:   SEVERITY.WARNING,
+        penalty:    PENALTIES.OUTDATED_MODULE,
+        message:    outdated.daysAgo ? `Last update: ${outdated.daysAgo} days ago` : `Verified for v${outdated.verMajor}, running v${foundryVersion.split('.')[0]}`,
+        suggestion: 'GG.Suggestion.Outdated',
+        moduleId:   id,
       });
     }
 
@@ -112,12 +115,13 @@ export class GGScanner {
       const depActive = depMod && this._isActive(depMod);
       if (!depActive) {
         problems.push({
-          type:     'missing-dependency',
-          severity: SEVERITY.CRITICAL,
-          penalty:  PENALTIES.MISSING_DEPENDENCY,
-          message:  `Requires "${depId}" — not found or inactive`,
-          moduleId: id,
-          relatedId: depId,
+          type:       'missing-dependency',
+          severity:   SEVERITY.CRITICAL,
+          penalty:    PENALTIES.MISSING_DEPENDENCY,
+          message:    `Requires "${depId}" — not found or inactive`,
+          suggestion: 'GG.Suggestion.MissingDep',
+          moduleId:   id,
+          relatedId:  depId,
         });
       }
     }
@@ -129,12 +133,13 @@ export class GGScanner {
       const cMod = game.modules.get(cId);
       if (cMod && this._isActive(cMod)) {
         problems.push({
-          type:     'declared-conflict',
-          severity: SEVERITY.CRITICAL,
-          penalty:  PENALTIES.DECLARED_CONFLICT,
-          message:  `Declares conflict with "${cId}" which is active`,
-          moduleId: id,
-          relatedId: cId,
+          type:       'declared-conflict',
+          severity:   SEVERITY.CRITICAL,
+          penalty:    PENALTIES.DECLARED_CONFLICT,
+          message:    `Declares conflict with "${cId}" which is active`,
+          suggestion: 'GG.Suggestion.DeclaredConflict',
+          moduleId:   id,
+          relatedId:  cId,
         });
       }
     }
@@ -216,12 +221,13 @@ export class GGScanner {
       const matching = patterns.filter(p => activeIds.has(p));
       if (matching.length >= 2) {
         conflicts.push({
-          type:      'heuristic-conflict',
-          severity:  SEVERITY.WARNING,
-          penalty:   PENALTIES.HEURISTIC_CONFLICT,
+          type:       'heuristic-conflict',
+          severity:   SEVERITY.WARNING,
+          penalty:    PENALTIES.HEURISTIC_CONFLICT,
           hook,
-          modules:   matching,
-          message:   `${matching.join(' + ')} both override ${hook}`,
+          modules:    matching,
+          message:    `${matching.join(' + ')} both override ${hook}`,
+          suggestion: 'GG.Suggestion.HeuristicConflict',
         });
       }
     }
