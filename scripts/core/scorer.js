@@ -28,11 +28,12 @@ export class GGScorer {
       const penalty = problem.penalty ?? 0;
       totalPenalty += penalty;
       breakdown.push({
-        source:   problem.moduleId ?? 'system',
-        type:     problem.type,
-        severity: problem.severity,
+        source:     problem.moduleId ?? 'system',
+        type:       problem.type,
+        severity:   problem.severity,
         penalty,
-        message:  problem.message,
+        message:    problem.message,
+        suggestion: problem.suggestion,
       });
     }
 
