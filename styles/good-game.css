@@ -48,8 +48,7 @@
   width: 24px;
   height: 24px;
   object-fit: contain;
-  color: var(--gg-avatar-color);
-  /* SVG with currentColor will use this color */
+  filter: brightness(0) invert(1);
 }
 
 .gg-topbar__bar-wrap {
@@ -129,7 +128,7 @@
 /* ── Hero: Avatar + Gauge ──────────────────────────────────────────────── */
 .gg-panel__hero {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 16px;
   padding: 20px 20px 12px;
 }
