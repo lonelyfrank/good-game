@@ -9,6 +9,7 @@ import { MODULE_ID, getTier } from '../utils/constants.js';
 import { GGAvatarConfig }      from './avatar-config.js';
 import { GGSnapshots }         from '../core/snapshots.js';
 import { GGErrorMonitor }      from '../core/error-monitor.js';
+import { GGGraph }             from './graph.js';
 
 /* ------------------------------------------------------------------ */
 /*  Detect API generation                                               */
@@ -121,6 +122,15 @@ function _bindEvents(el) {
       tab.classList.add('active');
       const target = el.querySelector(`#gg-tab-${tab.dataset.tab}`);
       if (target) target.classList.add('active');
+
+      // Lazy-render the dependency graph on first open
+      if (tab.dataset.tab === 'graph') {
+        const container = el.querySelector('#gg-graph-container');
+        if (container && !container.dataset.rendered) {
+          GGGraph.render(container, game.goodGame?.lastScan ?? { modules: [] });
+          container.dataset.rendered = 'true';
+        }
+      }
     });
   });
 

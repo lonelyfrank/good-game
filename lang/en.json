@@ -28,7 +28,8 @@
       "Modules": "Moduli",
       "Errors": "Errori Runtime",
       "Snapshots": "Snapshot",
-      "Avatar": "Mascotte"
+      "Avatar": "Mascotte",
+      "Graph":  "Graph"
     },
     "Filter": {
       "All": "Tutti",
@@ -107,6 +108,9 @@
       "MissingDep":        "Install and activate the required module before starting your session.",
       "DeclaredConflict":  "Disable one of the two conflicting modules.",
       "HeuristicConflict": "Consider whether both modules are needed; try disabling one."
+    },
+    "Graph": {
+      "ClickHint": "Click a node to see module details."
     },
     "Diff": {
       "Button":      "Diff",

@@ -147,12 +147,14 @@ export class GGScanner {
     return {
       id,
       title,
-      version:  data.version ?? '?',
+      version:   data.version ?? '?',
       compat,
       problems,
-      status:   problems.length === 0                                      ? 'ok'
-              : problems.some(p => p.severity === SEVERITY.CRITICAL) ? 'critical'
-              : 'warning',
+      requires:  (rels.requires  ?? []).map(r => r.id ?? r),
+      conflicts: (rels.conflicts ?? []).map(r => r.id ?? r),
+      status:    problems.length === 0                                      ? 'ok'
+               : problems.some(p => p.severity === SEVERITY.CRITICAL) ? 'critical'
+               : 'warning',
     };
   }
 

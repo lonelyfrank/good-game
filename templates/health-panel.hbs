@@ -79,6 +79,7 @@
   <div class="gg-tabs">
     <button class="gg-tab active" data-tab="problems">{{localize "GG.Tabs.Problems"}}</button>
     <button class="gg-tab" data-tab="modules">{{localize "GG.Tabs.Modules"}}</button>
+    <button class="gg-tab" data-tab="graph">{{localize "GG.Tabs.Graph"}}</button>
     <button class="gg-tab" data-tab="errors">{{localize "GG.Tabs.Errors"}}</button>
     <button class="gg-tab" data-tab="snapshots">{{localize "GG.Tabs.Snapshots"}}</button>
     <button class="gg-tab" data-tab="avatar">{{localize "GG.Tabs.Avatar"}}</button>
@@ -130,6 +131,11 @@
       </div>
       {{/each}}
     </div>
+  </div>
+
+  {{!-- Tab: Dependency Graph --}}
+  <div class="gg-tab-content" id="gg-tab-graph">
+    <div id="gg-graph-container"></div>
   </div>
 
   {{!-- Tab: Runtime Errors --}}

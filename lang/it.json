@@ -28,7 +28,8 @@
       "Modules": "Moduli",
       "Errors": "Errori Runtime",
       "Snapshots": "Snapshot",
-      "Avatar": "Mascotte"
+      "Avatar": "Mascotte",
+      "Graph":  "Grafo"
     },
     "Filter": {
       "All": "Tutti",
@@ -107,6 +108,9 @@
       "MissingDep":        "Installa e attiva il modulo richiesto prima di avviare la sessione.",
       "DeclaredConflict":  "Disabilita uno dei due moduli in conflitto.",
       "HeuristicConflict": "Valuta se entrambi i moduli sono necessari; prova a disabilitarne uno."
+    },
+    "Graph": {
+      "ClickHint": "Clicca un nodo per vedere i dettagli del modulo."
     },
     "Diff": {
       "Button":      "Diff",
