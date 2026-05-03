@@ -5,9 +5,7 @@
  * game settings (world-scoped) and allows before/after diffing.
  */
 
-import { MODULE_ID, log } from '../utils/constants.js';
-
-const STORAGE_KEY = 'gg-snapshots';
+import { MODULE_ID, STORAGE_KEY, log } from '../utils/constants.js';
 const MAX_SNAPSHOTS = 10;
 
 export class GGSnapshots {

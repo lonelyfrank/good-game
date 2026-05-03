@@ -19,7 +19,7 @@ export class GGErrorMonitor {
   static _errors  = [];
   static _active  = false;
   static _origOnError = null;
-  static _origOnUnhandled = null;
+  static _boundHandleRejection = null;
 
   /* ---------------------------------------------------------------- */
   /*  Public API                                                        */
@@ -39,8 +39,8 @@ export class GGErrorMonitor {
     };
 
     // Unhandled promise rejections
-    this._origOnUnhandled = window.onunhandledrejection;
-    window.addEventListener('unhandledrejection', this._handleRejection.bind(this));
+    this._boundHandleRejection = this._handleRejection.bind(this);
+    window.addEventListener('unhandledrejection', this._boundHandleRejection);
 
     // Optional: intercept console.error (behind a setting)
     if (game.settings.get(MODULE_ID, 'monitorConsole')) {
@@ -53,7 +53,8 @@ export class GGErrorMonitor {
   static stop() {
     if (!this._active) return;
     window.onerror = this._origOnError;
-    window.removeEventListener('unhandledrejection', this._handleRejection.bind(this));
+    window.removeEventListener('unhandledrejection', this._boundHandleRejection);
+    this._boundHandleRejection = null;
     this._active = false;
     log('ErrorMonitor: stopped');
   }

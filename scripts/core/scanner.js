@@ -9,25 +9,6 @@
 
 import { SEVERITY, PENALTIES, log } from '../utils/constants.js';
 
-/* ------------------------------------------------------------------ */
-/*  Compatibility shim: module data access changed across versions     */
-/* ------------------------------------------------------------------ */
-
-function getModuleData(mod) {
-  // v11+ stores data directly on the module object
-  // v10 uses mod.data
-  return mod.data ?? mod;
-}
-
-function getActive(mod) {
-  // v11+: mod.active  |  v10: mod.active (same, but double-check)
-  return mod.active === true;
-}
-
-/* ------------------------------------------------------------------ */
-/*  Scanner                                                             */
-/* ------------------------------------------------------------------ */
-
 export class GGScanner {
 
   /**
@@ -38,7 +19,7 @@ export class GGScanner {
     log('Scanner: starting scan…');
 
     const foundryVersion = this._getFoundryVersion();
-    const activeModules  = [...game.modules.values()].filter(getActive);
+    const activeModules  = [...game.modules.values()].filter(m => this._isActive(m));
 
     const moduleReports = activeModules.map(mod =>
       this._analyzeModule(mod, foundryVersion, activeModules)
@@ -63,8 +44,16 @@ export class GGScanner {
 
   /* -------------------- private helpers ---------------------------- */
 
+  // v11+ stores data directly on the module object; v10 uses mod.data
+  static _getModuleData(mod) {
+    return mod.data ?? mod;
+  }
+
+  static _isActive(mod) {
+    return mod.active === true;
+  }
+
   static _getFoundryVersion() {
-    // game.version is available v10+
     return game.version ?? game.data?.version ?? '0';
   }
 
@@ -72,7 +61,7 @@ export class GGScanner {
    * Analyze a single module and produce a ModuleReport.
    */
   static _analyzeModule(mod, foundryVersion, allActive) {
-    const data     = getModuleData(mod);
+    const data     = this._getModuleData(mod);
     const id       = data.id ?? mod.id;
     const title    = data.title ?? id;
     const compat   = data.compatibility ?? {};
@@ -120,7 +109,7 @@ export class GGScanner {
     for (const dep of requiredDeps) {
       const depId     = dep.id ?? dep;
       const depMod    = game.modules.get(depId);
-      const depActive = depMod && getActive(depMod);
+      const depActive = depMod && this._isActive(depMod);
       if (!depActive) {
         problems.push({
           type:     'missing-dependency',
@@ -138,7 +127,7 @@ export class GGScanner {
     for (const conflict of declaredConflicts) {
       const cId  = conflict.id ?? conflict;
       const cMod = game.modules.get(cId);
-      if (cMod && getActive(cMod)) {
+      if (cMod && this._isActive(cMod)) {
         problems.push({
           type:     'declared-conflict',
           severity: SEVERITY.CRITICAL,
@@ -156,7 +145,7 @@ export class GGScanner {
       version:  data.version ?? '?',
       compat,
       problems,
-      status:   problems.length === 0             ? 'ok'
+      status:   problems.length === 0                                      ? 'ok'
               : problems.some(p => p.severity === SEVERITY.CRITICAL) ? 'critical'
               : 'warning',
     };
@@ -187,7 +176,6 @@ export class GGScanner {
    * Many modules don't expose this, so we degrade gracefully.
    */
   static _checkOutdated(data, foundryVersion) {
-    // Primary: lastUpdate/date field in manifest
     const raw = data.lastUpdate ?? data.date ?? null;
     if (raw) {
       try {
@@ -196,7 +184,6 @@ export class GGScanner {
         if (daysAgo > 180) return { isOutdated: true, daysAgo };
       } catch { /* ignore */ }
     }
-    // Fallback: verified version is 1 major behind running version
     try {
       const compat = data.compatibility ?? {};
       if (compat.verified && foundryVersion) {
@@ -211,12 +198,10 @@ export class GGScanner {
   /**
    * Heuristic conflict detection:
    * Finds hooks/classes that multiple modules override simultaneously.
-   * This is intentionally lightweight — deep static analysis is v2 territory.
    */
   static _detectHeuristicConflicts(activeModules) {
     const conflicts = [];
 
-    // Known hook collision patterns: [hookName, [moduleIdPatterns...]]
     const KNOWN_COLLISIONS = [
       ['renderChatMessage',   ['midi-qol', 'dnd5e-helpers', 'betterrolls5e']],
       ['preCreateChatMessage',['midi-qol', 'ready-set-roll-5e']],
@@ -225,7 +210,7 @@ export class GGScanner {
       ['lightingRefresh',     ['perfect-vision', 'fxmaster']],
     ];
 
-    const activeIds = new Set(activeModules.map(m => (m.data ?? m).id ?? m.id));
+    const activeIds = new Set(activeModules.map(m => this._getModuleData(m).id ?? m.id));
 
     for (const [hook, patterns] of KNOWN_COLLISIONS) {
       const matching = patterns.filter(p => activeIds.has(p));

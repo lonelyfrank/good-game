@@ -59,6 +59,16 @@ export class GGSettings {
       default: true,
     });
 
+    // ── Top bar visibility ───────────────────────────────────────────
+    game.settings.register(MODULE_ID, SETTINGS.TOPBAR_ENABLED, {
+      name:    'GG.Settings.TopbarEnabled.Name',
+      hint:    'GG.Settings.TopbarEnabled.Hint',
+      scope:   'client',
+      config:  true,
+      type:    Boolean,
+      default: true,
+    });
+
     // ── Top bar position ─────────────────────────────────────────────
     game.settings.register(MODULE_ID, SETTINGS.TOPBAR_POSITION, {
       name:    'GG.Settings.TopbarPosition.Name',

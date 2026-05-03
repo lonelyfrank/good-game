@@ -71,6 +71,9 @@ export function log(...args) {
   }
 }
 
+/** Storage key for snapshots — shared between snapshots.js and settings.js */
+export const STORAGE_KEY = 'gg-snapshots';
+
 export function warn(...args) {
   console.warn('%c[GoodGame]', 'color:#854F0B;font-weight:bold', ...args);
 }

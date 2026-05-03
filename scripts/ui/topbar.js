@@ -68,7 +68,7 @@ export class GGTopBar {
    * Update the indicator in-place without re-injecting.
    */
   static update(scoreResult) {
-    if (!this._el) return this.inject(scoreResult);
+    if (!this._el) return;
 
     const { value, tier } = scoreResult;
 
