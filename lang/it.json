@@ -89,10 +89,16 @@
         "Hint": "Dove posizionare l'indicatore GG nell'interfaccia di Foundry.",
         "TopRight": "In alto a destra",
         "TopLeft": "In alto a sinistra"
+      },
+      "TopbarEnabled": {
+        "Name": "Mostra indicatore in alto",
+        "Hint": "Mostra l'indicatore GG nella barra di navigazione superiore."
       }
     },
     "Avatar": {
-      "Default": "Mascotte predefinita"
+      "Boblin": "Boblin",
+      "Otto":   "Otto",
+      "Borbok": "Borbok"
     }
   }
 }

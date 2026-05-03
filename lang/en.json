@@ -96,7 +96,9 @@
       }
     },
     "Avatar": {
-      "Default": "Mascotte predefinita"
+      "Boblin": "Boblin",
+      "Otto":   "Otto",
+      "Borbok": "Borbok"
     }
   }
 }

@@ -14,35 +14,34 @@ import { MODULE_ID, SETTINGS } from '../utils/constants.js';
 
 /** Built-in avatar packs */
 export const AVATAR_PACKS = [
-
   {
-    id:      'default',
-    label:   game?.i18n?.localize('GG.Avatar.Default') ?? 'Default Mascot',
-    system:  null,
-    states:  {
+    id:     'default',
+    label:  game?.i18n?.localize('GG.Avatar.Boblin') ?? 'Boblin',
+    system: null,
+    states: {
       good:   'assets/avatars/boblin/good.svg',
       risky:  'assets/avatars/boblin/risky.svg',
       broken: 'assets/avatars/boblin/broken.svg',
     },
   },
   {
-    id:      'dnd5e',
-    label:   'D&D 5e Mascot',
-    system:  'dnd5e',
-    states:  {
-      good:   'assets/avatars/dnd5e/good.png',
-      risky:  'assets/avatars/dnd5e/risky.png',
-      broken: 'assets/avatars/dnd5e/broken.png',
+    id:     'otto',
+    label:  game?.i18n?.localize('GG.Avatar.Otto') ?? 'Otto',
+    system: null,
+    states: {
+      good:   'assets/avatars/otto/good.svg',
+      risky:  'assets/avatars/otto/risky.svg',
+      broken: 'assets/avatars/otto/broken.svg',
     },
   },
   {
-    id:      'coc7',
-    label:   'CoC 7e Mascot',
-    system:  'CoC7',
-    states:  {
-      good:   'assets/avatars/coc7/good.png',
-      risky:  'assets/avatars/coc7/risky.png',
-      broken: 'assets/avatars/coc7/broken.png',
+    id:     'borbok',
+    label:  game?.i18n?.localize('GG.Avatar.Borbok') ?? 'Borbok',
+    system: null,
+    states: {
+      good:   'assets/avatars/borbok/good.svg',
+      risky:  'assets/avatars/borbok/risky.svg',
+      broken: 'assets/avatars/borbok/broken.svg',
     },
   },
 ];
