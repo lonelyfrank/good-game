@@ -134,27 +134,25 @@
   padding: 20px 20px 12px;
 }
 
-/* Gauge takes left half */
 .gg-gauge-area {
   flex: 1;
   min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-/* Avatar takes right half — same visual weight as gauge */
 .gg-avatar-wrap {
-  flex-shrink: 0;
-  width: 140px;
+  flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
-  align-self: stretch;
 }
 
 .gg-avatar {
-  width: 130px;
-  height: 130px;
+  width: 190px;
+  height: 190px;
   object-fit: contain;
-  /* Force white regardless of SVG fill color */
   filter: brightness(0) invert(1);
   transition: transform 0.3s, filter 0.3s;
 }
