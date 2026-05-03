@@ -134,6 +134,11 @@ function _bindEvents(el) {
     });
   });
 
+  // Problem row — click to expand/collapse suggestion
+  el.querySelectorAll('.gg-problem-row').forEach(row => {
+    row.addEventListener('click', () => row.classList.toggle('expanded'));
+  });
+
   // Severity filter chips
   el.querySelectorAll('.gg-filter-chip').forEach(chip => {
     chip.addEventListener('click', () => {

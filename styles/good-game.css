@@ -349,15 +349,19 @@
 .gg-problem-body { flex: 1; }
 .gg-problem-name { font-size: 12px; font-weight: 600; margin-bottom: 2px; }
 .gg-problem-detail { font-size: 11px; opacity: 0.55; line-height: 1.4; }
+.gg-problem-row { cursor: pointer; }
+
 .gg-problem-suggestion {
+  display: none;
   font-size: 10px;
-  margin-top: 4px;
+  margin-top: 6px;
   padding: 3px 7px;
   border-radius: var(--gg-radius);
   background: rgba(255,255,255,0.05);
   color: rgba(255,255,255,0.55);
   line-height: 1.4;
 }
+.gg-problem-row.expanded .gg-problem-suggestion { display: block; }
 .gg-problem-penalty { font-size: 10px; opacity: 0.35; white-space: nowrap; }
 
 /* ── Modules Grid ──────────────────────────────────────────────────────── */
