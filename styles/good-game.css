@@ -183,13 +183,15 @@
 
 .gg-gauge__fill {
   stroke-dasharray: 258;
-  transition: stroke-dashoffset 0.6s ease, stroke 0.4s;
+  stroke-dashoffset: 258;
+  transition: stroke-dashoffset 0.9s cubic-bezier(0.4, 0, 0.2, 1), stroke 0.5s;
 }
 
 .gg-gauge__needle {
   stroke: rgba(255,255,255,0.85);
   transform-origin: 100px 100px;
-  transition: transform 0.6s ease;
+  transform: rotate(-90deg);
+  transition: transform 0.9s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .gg-gauge__pivot { fill: rgba(255,255,255,0.85); }

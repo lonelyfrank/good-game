@@ -113,7 +113,27 @@ function _buildContext() {
 /*  Shared event binder                                                 */
 /* ------------------------------------------------------------------ */
 
+function _animateGauge(el) {
+  const gaugeEl = el.querySelector('.gg-gauge');
+  if (!gaugeEl) return;
+  const score  = parseFloat(gaugeEl.style.getPropertyValue('--gg-score') || '0');
+  const fill   = gaugeEl.querySelector('.gg-gauge__fill');
+  const needle = gaugeEl.querySelector('.gg-gauge__needle');
+
+  // Reset to zero so the CSS transition plays from empty each render
+  if (fill)   fill.style.strokeDashoffset = '258';
+  if (needle) needle.style.transform = 'rotate(-90deg)';
+
+  // Two rAF frames to ensure the browser paints the reset state first
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    if (fill)   fill.style.strokeDashoffset = String(258 - (score / 100) * 258);
+    if (needle) needle.style.transform = `rotate(${(score / 100) * 180 - 90}deg)`;
+  }));
+}
+
 function _bindEvents(el) {
+  _animateGauge(el);
+
   // Tab switching
   el.querySelectorAll('.gg-tab').forEach(tab => {
     tab.addEventListener('click', () => {
