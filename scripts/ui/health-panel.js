@@ -168,10 +168,16 @@ function _bindEvents(el) {
 
       const key  = row.dataset.key;
       const err  = GGErrorMonitor.getErrors().find(e => e.key === key);
-      if (!err) return;
 
-      const suggestion = _errorSuggestion(err);
-      const stackLines = (err.stack ?? '')
+      // Fallback: build a minimal error object from data attributes if monitor was cleared
+      const errData = err ?? {
+        attributedModule: row.dataset.module || null,
+        confidence:       row.dataset.confidence || 'low',
+        stack:            '',
+      };
+
+      const suggestion = _errorSuggestion(errData);
+      const stackLines = (errData.stack ?? '')
         .split('\n').map(l => l.trim()).filter(Boolean).slice(0, 4).join('\n');
 
       const detail = document.createElement('div');

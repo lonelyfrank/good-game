@@ -84,7 +84,7 @@ export class GGGraph {
     const defs   = _el('defs');
     const marker = _el('marker', {
       id: 'gg-arr', markerWidth: '7', markerHeight: '7',
-      refX: R + 7, refY: '3', orient: 'auto',
+      refX: R_BASE + 7, refY: '3', orient: 'auto',
     });
     marker.appendChild(_el('path', { d: 'M0,0 L0,6 L7,3 z', fill: COLOR.edge_req }));
     defs.appendChild(marker);
