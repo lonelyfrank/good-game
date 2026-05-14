@@ -20,9 +20,16 @@
         {{!-- SVG arc is rendered via CSS custom property --}}
         <div class="gg-gauge gg-tier-{{tier}}" style="--gg-score: {{score}}">
           <svg viewBox="0 0 200 110" class="gg-gauge__svg" aria-hidden="true">
+            <defs>
+              <linearGradient id="gg-gauge-grad" gradientUnits="userSpaceOnUse" x1="18" y1="0" x2="182" y2="0">
+                <stop offset="0%"   stop-color="#E24B4A"/>
+                <stop offset="50%"  stop-color="#EF9F27"/>
+                <stop offset="100%" stop-color="#639922"/>
+              </linearGradient>
+            </defs>
             <path class="gg-gauge__track"  d="M 18 100 A 82 82 0 0 1 182 100" fill="none" stroke-width="10" stroke-linecap="round"/>
-            <path class="gg-gauge__fill"   d="M 18 100 A 82 82 0 0 1 182 100" fill="none" stroke-width="10" stroke-linecap="round"/>
-            <line class="gg-gauge__needle" x1="100" y1="100" x2="100" y2="24" stroke-width="3" stroke-linecap="round"/>
+            <path class="gg-gauge__fill"   d="M 18 100 A 82 82 0 0 1 182 100" fill="none" stroke-width="10" stroke-linecap="round" stroke="url(#gg-gauge-grad)"/>
+            <line class="gg-gauge__needle" x1="100" y1="100" x2="100" y2="32" stroke-width="3" stroke-linecap="round"/>
             <circle class="gg-gauge__pivot" cx="100" cy="100" r="5"/>
           </svg>
           <div class="gg-gauge__label">

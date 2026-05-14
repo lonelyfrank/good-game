@@ -177,14 +177,10 @@
 
 .gg-gauge__track { stroke: rgba(255,255,255,0.1); }
 
-.gg-tier-good   .gg-gauge__fill { stroke: var(--gg-good); }
-.gg-tier-risky  .gg-gauge__fill { stroke: var(--gg-risky); }
-.gg-tier-broken .gg-gauge__fill { stroke: var(--gg-broken); }
-
 .gg-gauge__fill {
   stroke-dasharray: 258;
   stroke-dashoffset: 258;
-  transition: stroke-dashoffset 0.9s cubic-bezier(0.4, 0, 0.2, 1), stroke 0.5s;
+  transition: stroke-dashoffset 0.9s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .gg-gauge__needle {
