@@ -2,98 +2,98 @@
   "GG": {
     "Panel": {
       "Title": "Game Health Meter",
-      "Scan": "Scansiona moduli",
-      "Scanning": "Scansione in corso…",
-      "LastScan": "Ultima scansione"
+      "Scan": "Scan Modules",
+      "Scanning": "Scanning…",
+      "LastScan": "Last scan"
     },
     "Tier": {
       "good": "Good Game",
       "risky": "Risky Game",
       "broken": "Broken Game",
-      "GoodDesc": "La sessione è tecnicamente stabile. Siete pronti per giocare!",
-      "RiskyDesc": "Alcune criticità rilevate. La sessione potrebbe avere comportamenti inattesi.",
-      "BrokenDesc": "Problemi critici rilevati. Risolvili prima di iniziare la sessione."
+      "GoodDesc": "Session is technically stable. You are ready to play!",
+      "RiskyDesc": "Some issues detected. The session may behave unexpectedly.",
+      "BrokenDesc": "Critical problems detected. Fix them before starting your session."
     },
     "Score": {
-      "Summary": "Punteggio: {score}/100 ({tier}) — {critical} critici, {warning} warning"
+      "Summary": "Score: {score}/100 ({tier}) — {critical} critical, {warning} warning"
     },
     "Stats": {
-      "Active": "moduli attivi",
-      "Critical": "critici",
+      "Active": "active modules",
+      "Critical": "critical",
       "Warning": "warning",
-      "Errors": "errori runtime"
+      "Errors": "runtime errors"
     },
     "Tabs": {
-      "Problems": "Problemi",
-      "Modules": "Moduli",
-      "Errors": "Errori Runtime",
-      "Snapshots": "Snapshot",
-      "Avatar": "Mascotte",
+      "Problems": "Problems",
+      "Modules": "Modules",
+      "Errors": "Runtime Errors",
+      "Snapshots": "Snapshots",
+      "Avatar": "Mascot",
       "Graph":  "Graph"
     },
     "Filter": {
-      "All": "Tutti",
-      "Critical": "Critici",
+      "All": "All",
+      "Critical": "Critical",
       "Warning": "Warning",
       "Info": "Info"
     },
     "Severity": {
-      "critical": "critico",
+      "critical": "critical",
       "warning": "warning",
-      "info": "informativo"
+      "info": "info"
     },
     "ModStatus": {
       "ok": "ok",
-      "critical": "problema critico",
-      "warning": "attenzione"
+      "critical": "critical issue",
+      "warning": "warning"
     },
     "Problems": {
-      "Empty": "Nessun problema rilevato — buona sessione!"
+      "Empty": "No issues detected — good to play!"
     },
     "Errors": {
-      "Empty": "Nessun errore runtime intercettato."
+      "Empty": "No runtime errors caught."
     },
     "Snapshots": {
-      "Save": "Salva snapshot",
-      "Empty": "Nessuno snapshot salvato.",
-      "Saved": "Snapshot \"{label}\" salvato — punteggio {score}/100"
+      "Save": "Save Snapshot",
+      "Empty": "No snapshots saved.",
+      "Saved": "Snapshot \"{label}\" saved — score {score}/100"
     },
     "Controls": {
-      "OpenPanel": "Apri GG Health Panel",
-      "SaveSnapshot": "Salva Snapshot Sessione"
+      "OpenPanel": "Open GG Health Panel",
+      "SaveSnapshot": "Save Session Snapshot"
     },
     "TopBar": {
-      "Tooltip": "Salute sessione: {score}/100 — {tier}"
+      "Tooltip": "Session health: {score}/100 — {tier}"
     },
     "Notifications": {
-      "LowScore": "GG Avviso: la salute della sessione è {score}/100 — controlla il Game Health Meter."
+      "LowScore": "GG Warning: session health is {score}/100 — check the Game Health Meter."
     },
     "Settings": {
       "WarnThreshold": {
-        "Name": "Soglia di avviso",
-        "Hint": "GG avviserà il GM se il punteggio scende sotto questo valore."
+        "Name": "Warning threshold",
+        "Hint": "GG will warn the GM if the score drops below this value."
       },
       "AvatarId": {
-        "Name": "Mascotte avatar",
-        "Hint": "Scegli la mascotte per il tuo health meter."
+        "Name": "Mascot avatar",
+        "Hint": "Choose the mascot for your health meter."
       },
       "MonitorConsole": {
-        "Name": "Monitora console.error",
-        "Hint": "Intercetta anche le chiamate console.error per l'attribuzione degli errori (può essere rumoroso)."
+        "Name": "Monitor console.error",
+        "Hint": "Also intercept console.error calls for error attribution (can be noisy)."
       },
       "ScanOnScene": {
-        "Name": "Riscansiona al cambio scena",
-        "Hint": "Riscansiona automaticamente i moduli dopo il caricamento di ogni scena."
+        "Name": "Re-scan on scene load",
+        "Hint": "Automatically re-scan modules after every scene loads."
       },
       "TopbarPosition": {
-        "Name": "Posizione barra superiore",
-        "Hint": "Dove posizionare l'indicatore GG nell'interfaccia di Foundry.",
-        "TopRight": "In alto a destra",
-        "TopLeft": "In alto a sinistra"
+        "Name": "Top bar position",
+        "Hint": "Where to place the GG indicator in the Foundry UI.",
+        "TopRight": "Top right",
+        "TopLeft": "Top left"
       },
       "TopbarEnabled": {
-        "Name": "Mostra indicatore in alto",
-        "Hint": "Mostra l'indicatore GG nella barra di navigazione superiore."
+        "Name": "Show top bar indicator",
+        "Hint": "Show the GG indicator in the top navigation bar."
       }
     },
     "Avatar": {

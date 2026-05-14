@@ -55,11 +55,9 @@ Ships with English and Italian. Add more by contributing a JSON file to `lang/`.
 
 | Foundry Version | Status |
 |----------------|--------|
-| v10 | ✅ Supported |
-| v11 | ✅ Supported |
-| v12 | ✅ Supported |
-| v13 | ✅ Supported |
-| v14+ | ✅ Verified |
+| v10 / v11 | 🟡 Legacy path (Application fallback — untested) |
+| v12 / v13 | 🟡 ApplicationV2 path — untested |
+| v14 | ✅ Verified |
 
 ---
 
@@ -99,9 +97,9 @@ good-game/
 │   └── it.json
 └── assets/
     └── avatars/
-        ├── default/    ← good.svg, risky.svg, broken.svg
-        ├── dnd5e/
-        └── coc7/
+        ├── boblin/    ← good.svg, risky.svg, broken.svg
+        ├── otto/
+        └── borbok/
 ```
 
 ---
@@ -131,10 +129,12 @@ All penalty weights live in `scripts/utils/constants.js` under `PENALTIES`.
 
 ## Roadmap
 
-- [ ] v0.2 — Conflict Graph
+- [x] v0.1 — Dependency Graph (SVG, force-directed)
+- [x] v0.1 — Suggest Fix per problem
+- [x] v0.1 — Snapshot diff UI
+- [x] v0.1 — Runtime error click-to-expand
 - [ ] v0.2 — Performance Monitor
 - [ ] v0.3 — Community Blacklist
-- [ ] v0.3 — Auto-fix suggestions
 - [ ] v0.4 — Pre-session GO/NO-GO checklist
 
 ---

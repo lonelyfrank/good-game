@@ -43,7 +43,7 @@
   "socket": false,
 
   "manifest": "https://raw.githubusercontent.com/lonelyfrank/good-game/main/module.json",
-  "download": "https://github.com/lonelyfrank/good-game/releases/latest/download/module.zip",
+  "download": "https://github.com/lonelyfrank/good-game/releases/download/v0.1.0/module.zip",
   "changelog": "https://github.com/lonelyfrank/good-game/blob/main/CHANGELOG.md",
   "bugs": "https://github.com/lonelyfrank/good-game/issues",
   "url": "https://github.com/lonelyfrank/good-game",
