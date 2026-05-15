@@ -117,6 +117,18 @@
       "Medium": "Potrebbe essere legato a {module} — controlla aggiornamenti o conflitti con altri moduli.",
       "Low":    "Origine incerta — potrebbe essere un conflitto tra moduli o un errore di Foundry stesso."
     },
+    "Breakdown": {
+      "Toggle":   "▸ Perché questo punteggio?",
+      "Start":    "Partenza",
+      "Critical": "problemi critici",
+      "Warning":  "warning",
+      "Info":     "info",
+      "Errors":   "errori runtime",
+      "Final":    "Punteggio finale"
+    },
+    "Export": {
+      "Button": "Esporta report"
+    },
     "Diff": {
       "Button":      "Diff",
       "Resolved":    "Problemi risolti",

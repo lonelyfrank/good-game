@@ -117,6 +117,18 @@
       "Medium": "May be related to {module} — check for updates or conflicts with other modules.",
       "Low":    "Origin unclear — could be a module conflict or a Foundry core issue."
     },
+    "Breakdown": {
+      "Toggle":   "▸ Why this score?",
+      "Start":    "Start",
+      "Critical": "critical issues",
+      "Warning":  "warnings",
+      "Info":     "info issues",
+      "Errors":   "runtime errors",
+      "Final":    "Final score"
+    },
+    "Export": {
+      "Button": "Export report"
+    },
     "Diff": {
       "Button":      "Diff",
       "Resolved":    "Resolved problems",

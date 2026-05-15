@@ -83,35 +83,48 @@ class GGHealthPanelLegacy extends Application {
 function _buildContext() {
   const gg     = game.goodGame;
   const scan   = gg?.lastScan   ?? {};
-  const score  = gg?.lastScore  ?? { value: 0, tier: { key: 'broken' }, stats: {}, breakdown: [] };
+  const score  = gg?.lastScore  ?? { value: 0, tier: { key: 'broken' }, stats: {}, breakdown: [], totalPenalty: 0 };
   const errors = GGErrorMonitor.getErrorsForScorer();
 
   return {
-    score:       score.value,
-    tier:        score.tier.key,
-    tierLabel:   game.i18n.localize(`GG.Tier.${score.tier.key}`),
+    score:          score.value,
+    tier:           score.tier.key,
+    tierLabel:      game.i18n.localize(`GG.Tier.${score.tier.key}`),
     stats: {
       active:   scan.totalActive ?? 0,
       critical: score.stats?.critical ?? 0,
       warning:  score.stats?.warning  ?? 0,
       errors:   errors.length,
     },
-    problems:    score.breakdown ?? [],
-    modules:     scan.modules   ?? [],
+    scoreBreakdown: _computeBreakdown(score),
+    problems:       score.breakdown ?? [],
+    modules:        scan.modules   ?? [],
     errors,
-    snapshots:   GGSnapshots.list().slice(0, 5),
-    avatarSrc:   GGAvatarConfig.getImage(score.tier.key),
-    avatarPacks: GGAvatarConfig.getPickerData(),
-    foundryVer:  scan.foundryVersion ?? game.version,
-    systemId:    scan.systemId       ?? game.system.id,
-    systemVer:   scan.systemVersion  ?? game.system.version,
-    scanTime:    scan.timestamp ? new Date(scan.timestamp).toLocaleTimeString() : '—',
+    snapshots:      GGSnapshots.list().slice(0, 5),
+    avatarSrc:      GGAvatarConfig.getImage(score.tier.key),
+    avatarPacks:    GGAvatarConfig.getPickerData(),
+    foundryVer:     scan.foundryVersion ?? game.version,
+    systemId:       scan.systemId       ?? game.system.id,
+    systemVer:      scan.systemVersion  ?? game.system.version,
+    scanTime:       scan.timestamp ? new Date(scan.timestamp).toLocaleTimeString() : '—',
   };
+}
+
+function _computeBreakdown(score) {
+  const bd = score.breakdown ?? [];
+  const critPenalty = bd.filter(p => p.severity === 'critical').reduce((s, p) => s + (p.penalty ?? 0), 0);
+  const warnPenalty = bd.filter(p => p.severity === 'warning').reduce((s, p) => s + (p.penalty ?? 0), 0);
+  const errPenalty  = bd.filter(p => p.type === 'runtime-error').reduce((s, p) => s + (p.penalty ?? 0), 0);
+  const infoPenalty = bd.filter(p => p.severity === 'info' && p.type !== 'runtime-error').reduce((s, p) => s + (p.penalty ?? 0), 0);
+  return { critPenalty, warnPenalty, infoPenalty, errPenalty };
 }
 
 /* ------------------------------------------------------------------ */
 /*  Shared event binder                                                 */
 /* ------------------------------------------------------------------ */
+
+// Remembered across re-renders so the gauge animates from the old score, not from 0
+let _prevScore = 0;
 
 function _animateGauge(el) {
   const gaugeEl = el.querySelector('.gg-gauge');
@@ -120,15 +133,61 @@ function _animateGauge(el) {
   const fill   = gaugeEl.querySelector('.gg-gauge__fill');
   const needle = gaugeEl.querySelector('.gg-gauge__needle');
 
-  // Reset to zero so the CSS transition plays from empty each render
-  if (fill)   fill.style.strokeDashoffset = '258';
-  if (needle) needle.style.transform = 'rotate(-90deg)';
+  // Place at previous score (no visible jump on re-render after scan)
+  const fromOffset = 258 - (_prevScore / 100) * 258;
+  const fromAngle  = (_prevScore / 100) * 180 - 90;
+  if (fill)   fill.style.strokeDashoffset = String(fromOffset);
+  if (needle) needle.style.transform = `rotate(${fromAngle}deg)`;
 
-  // Two rAF frames to ensure the browser paints the reset state first
   requestAnimationFrame(() => requestAnimationFrame(() => {
     if (fill)   fill.style.strokeDashoffset = String(258 - (score / 100) * 258);
     if (needle) needle.style.transform = `rotate(${(score / 100) * 180 - 90}deg)`;
+    _prevScore = score;
   }));
+}
+
+function _exportReport() {
+  const gg = game.goodGame;
+  if (!gg?.lastScore) return;
+
+  const score = gg.lastScore;
+  const scan  = gg.lastScan ?? {};
+
+  const report = {
+    generated:   new Date().toISOString(),
+    environment: {
+      foundry: scan.foundryVersion ?? game.version,
+      system:  `${scan.systemId ?? game.system.id} ${scan.systemVersion ?? game.system.version}`,
+    },
+    score: {
+      value:        score.value,
+      tier:         score.tier?.key,
+      totalPenalty: score.totalPenalty ?? 0,
+    },
+    activeModules: scan.totalActive ?? 0,
+    problems: (score.breakdown ?? []).map(p => ({
+      source:    p.source,
+      type:      p.type,
+      severity:  p.severity,
+      penalty:   p.penalty,
+      message:   p.message,
+    })),
+    runtimeErrors: GGErrorMonitor.getErrors().map(e => ({
+      key:        e.key,
+      type:       e.type,
+      message:    e.message,
+      count:      e.count,
+      module:     e.attributedModule,
+      confidence: e.confidence,
+    })),
+  };
+
+  const blob = new Blob([JSON.stringify(report, null, 2)], { type: 'application/json' });
+  const a    = document.createElement('a');
+  a.href     = URL.createObjectURL(blob);
+  a.download = `gg-report-${new Date().toISOString().slice(0, 10)}.json`;
+  a.click();
+  URL.revokeObjectURL(a.href);
 }
 
 function _bindEvents(el) {
@@ -178,6 +237,15 @@ function _bindEvents(el) {
     await game.goodGame?.refresh();
     if (btn) { btn.disabled = false; btn.textContent = game.i18n.localize('GG.Panel.Scan'); }
   });
+
+  // Breakdown toggle
+  el.querySelector('#gg-breakdown-toggle')?.addEventListener('click', () => {
+    const bd = el.querySelector('#gg-breakdown');
+    if (bd) bd.style.display = bd.style.display === 'none' ? 'block' : 'none';
+  });
+
+  // Export report
+  el.querySelector('#gg-export-btn')?.addEventListener('click', _exportReport);
 
   // Snapshot
   el.querySelector('#gg-snapshot-btn')?.addEventListener('click', () => {

@@ -82,6 +82,43 @@
     </div>
   </div>
 
+  {{!-- Score breakdown (collapsible) --}}
+  <button class="gg-breakdown-toggle" id="gg-breakdown-toggle">
+    {{localize "GG.Breakdown.Toggle"}}
+  </button>
+  <div class="gg-breakdown" id="gg-breakdown" style="display:none">
+    <div class="gg-breakdown-row gg-breakdown-row--start">
+      <span>{{localize "GG.Breakdown.Start"}}</span><span>100</span>
+    </div>
+    {{#if scoreBreakdown.critPenalty}}
+    <div class="gg-breakdown-row gg-breakdown-row--critical">
+      <span>{{stats.critical}} {{localize "GG.Breakdown.Critical"}}</span>
+      <span>−{{scoreBreakdown.critPenalty}}</span>
+    </div>
+    {{/if}}
+    {{#if scoreBreakdown.warnPenalty}}
+    <div class="gg-breakdown-row gg-breakdown-row--warning">
+      <span>{{stats.warning}} {{localize "GG.Breakdown.Warning"}}</span>
+      <span>−{{scoreBreakdown.warnPenalty}}</span>
+    </div>
+    {{/if}}
+    {{#if scoreBreakdown.infoPenalty}}
+    <div class="gg-breakdown-row gg-breakdown-row--info">
+      <span>{{localize "GG.Breakdown.Info"}}</span>
+      <span>−{{scoreBreakdown.infoPenalty}}</span>
+    </div>
+    {{/if}}
+    {{#if scoreBreakdown.errPenalty}}
+    <div class="gg-breakdown-row gg-breakdown-row--error">
+      <span>{{stats.errors}} {{localize "GG.Breakdown.Errors"}}</span>
+      <span>−{{scoreBreakdown.errPenalty}}</span>
+    </div>
+    {{/if}}
+    <div class="gg-breakdown-row gg-breakdown-row--final gg-tier-{{tier}}">
+      <span>{{localize "GG.Breakdown.Final"}}</span><span>{{score}}</span>
+    </div>
+  </div>
+
   {{!-- Tabs --}}
   <div class="gg-tabs">
     <button class="gg-tab active" data-tab="problems">{{localize "GG.Tabs.Problems"}}</button>
@@ -218,6 +255,7 @@
   {{!-- Footer --}}
   <div class="gg-panel__footer">
     <span>{{localize "GG.Panel.LastScan"}}: {{scanTime}}</span>
+    <button id="gg-export-btn" class="gg-btn-ghost">{{localize "GG.Export.Button"}}</button>
   </div>
 
 </div>
