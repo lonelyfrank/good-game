@@ -15,13 +15,9 @@ import { MODULE_ID }      from '../utils/constants.js';
 export class GGApp {
 
   constructor() {
-    this.scanner      = GGScanner;
-    this.scorer       = GGScorer;
-    this.errorMonitor = GGErrorMonitor;
-    this.snapshots    = GGSnapshots;
-    this.lastScan     = null;
-    this.lastScore    = null;
-    this.version      = game.modules.get(MODULE_ID)?.version ?? '?';
+    this.lastScan  = null;
+    this.lastScore = null;
+    this.version   = game.modules.get(MODULE_ID)?.version ?? '?';
   }
 
   /**

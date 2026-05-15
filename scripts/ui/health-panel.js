@@ -5,7 +5,7 @@
  * graceful fallback to Application (v10/v11).
  */
 
-import { MODULE_ID, getTier } from '../utils/constants.js';
+import { MODULE_ID } from '../utils/constants.js';
 import { GGAvatarConfig }      from './avatar-config.js';
 import { GGSnapshots }         from '../core/snapshots.js';
 import { GGErrorMonitor }      from '../core/error-monitor.js';

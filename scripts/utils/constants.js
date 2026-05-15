@@ -10,15 +10,14 @@ export const SETTINGS = {
   MONITOR_CONSOLE: 'monitorConsole',
   TOPBAR_ENABLED:  'topbarEnabled',
   TOPBAR_POSITION: 'topbarPosition',
-  SCAN_ON_READY:   'scanOnReady',
   SCAN_ON_SCENE:   'scanOnScene',
 };
 
 /** Score tier boundaries */
 export const TIERS = {
-  GOOD:   { min: 80,  max: 100, key: 'good',   color: '#639922', textColor: '#3B6D11' },
-  RISKY:  { min: 50,  max: 79,  key: 'risky',  color: '#EF9F27', textColor: '#854F0B' },
-  BROKEN: { min: 0,   max: 49,  key: 'broken', color: '#E24B4A', textColor: '#A32D2D' },
+  GOOD:   { min: 80, max: 100, key: 'good'   },
+  RISKY:  { min: 50, max: 79,  key: 'risky'  },
+  BROKEN: { min: 0,  max: 49,  key: 'broken' },
 };
 
 /** Penalty weights — tweak here to tune the scoring formula */
@@ -76,8 +75,4 @@ export const STORAGE_KEY = 'gg-snapshots';
 
 export function warn(...args) {
   console.warn('%c[GoodGame]', 'color:#854F0B;font-weight:bold', ...args);
-}
-
-export function err(...args) {
-  console.error('%c[GoodGame]', 'color:#A32D2D;font-weight:bold', ...args);
 }

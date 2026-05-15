@@ -7,7 +7,7 @@
  * Compatible: v10–v14+ (uses plain DOM manipulation, no Application API)
  */
 
-import { MODULE_ID, getTier } from '../utils/constants.js';
+import { MODULE_ID } from '../utils/constants.js';
 import { GGHealthPanel }       from './health-panel.js';
 import { GGAvatarConfig }      from './avatar-config.js';
 

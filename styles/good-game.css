@@ -17,13 +17,8 @@
   --gg-broken-bg:   #FCEBEB;
   --gg-broken-text: #A32D2D;
 
-  --gg-info-bg:   #E6F1FB;
-  --gg-info-text: #185FA5;
-
   --gg-radius:    6px;
   --gg-radius-lg: 10px;
-
-  --gg-avatar-color: #ffffff;
 }
 
 /* ── Top Bar Indicator ─────────────────────────────────────────────────── */
@@ -128,7 +123,7 @@
 /* ── Hero: Avatar + Gauge ──────────────────────────────────────────────── */
 .gg-panel__hero {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   gap: 16px;
   padding: 20px 20px 12px;
 }
@@ -158,12 +153,10 @@
 
 .gg-avatar:hover { transform: scale(1.04); }
 
-/* Tier glow — applied on top of the invert */
+/* Tier glow */
 .gg-tier-good   .gg-avatar { filter: brightness(0) invert(1) drop-shadow(0 2px 8px rgba(99,153,34,0.7)); }
 .gg-tier-risky  .gg-avatar { filter: brightness(0) invert(1) drop-shadow(0 2px 8px rgba(239,159,39,0.7)); }
 .gg-tier-broken .gg-avatar { filter: brightness(0) invert(1) drop-shadow(0 2px 8px rgba(226,75,74,0.7)); }
-
-.gg-avatar-name { display: none; }
 
 /* ── Gauge SVG ─────────────────────────────────────────────────────────── */
 .gg-gauge { position: relative; }
@@ -208,6 +201,8 @@
 .gg-tier-broken .gg-gauge__score { color: var(--gg-broken); }
 
 .gg-gauge__unit { font-size: 12px; opacity: 0.35; }
+
+.gg-state-info { text-align: center; }
 
 .gg-state-name {
   font-size: 20px;
@@ -323,6 +318,7 @@
   border-radius: var(--gg-radius);
   background: rgba(255,255,255,0.03);
   border: 1px solid rgba(255,255,255,0.07);
+  cursor: pointer;
   transition: border-color 0.15s;
 }
 
@@ -347,7 +343,6 @@
 .gg-problem-body { flex: 1; }
 .gg-problem-name { font-size: 12px; font-weight: 600; margin-bottom: 2px; }
 .gg-problem-detail { font-size: 11px; opacity: 0.55; line-height: 1.4; }
-.gg-problem-row { cursor: pointer; }
 
 .gg-problem-suggestion {
   display: none;
@@ -395,9 +390,10 @@
   background: rgba(255,255,255,0.03);
   border: 1px solid rgba(255,255,255,0.07);
   margin-bottom: 6px;
+  cursor: pointer;
+  transition: border-color 0.15s;
 }
 
-.gg-error-row { cursor: pointer; }
 .gg-error-row:hover { border-color: rgba(255,255,255,0.14); }
 
 .gg-error-meta { display: flex; align-items: center; gap: 6px; margin-bottom: 3px; }

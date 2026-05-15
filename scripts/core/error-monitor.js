@@ -6,7 +6,7 @@
  * stack trace analysis, and exposes the error list to the Scorer.
  */
 
-import { PENALTIES, SEVERITY, MODULE_ID, log, warn } from '../utils/constants.js';
+import { PENALTIES, MODULE_ID, log, warn } from '../utils/constants.js';
 
 /** Maximum number of unique errors we track (memory guard) */
 const MAX_ERRORS = 50;
